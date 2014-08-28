@@ -8,9 +8,9 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>ar.exa.edu.unicen.compiler.syntactic</groupId>
-  <artifactId>syntactic</artifactId>
+  <artifactId>compiler-syntactic</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>syntactic</name>
+  <name>compiler-syntactic</name>
   <url>http://maven.apache.org</url>
   <dependencies>
     <dependency>

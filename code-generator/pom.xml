@@ -8,9 +8,9 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>ar.exa.edu.unicen.compiler.cg</groupId>
-  <artifactId>code-generator</artifactId>
+  <artifactId>compiler-code-generator</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>code-generator</name>
+  <name>compiler-code-generator</name>
   <url>http://maven.apache.org</url>
   <dependencies>
     <dependency>
