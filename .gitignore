@@ -1,5 +1,6 @@
 *.class
 target/
+*~
 
 # Eclipse IDE
 *.classpath
