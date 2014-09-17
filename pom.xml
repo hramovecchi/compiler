@@ -14,6 +14,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <org.antlr-version>4.3</org.antlr-version>
+        <junit-version>4.11</junit-version>
     </properties>
 
     <build>
@@ -45,20 +46,6 @@
                     </execution>
                 </executions>
             </plugin>
-
-            <plugin>
-                <groupId>org.antlr</groupId>
-                <artifactId>antlr4-maven-plugin</artifactId>
-                <version>4.3</version>
-                <executions>
-                    <execution>
-                        <id>antlr</id>
-                        <goals>
-                            <goal>antlr4</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 
@@ -70,15 +57,12 @@
                 <artifactId>antlr4-runtime</artifactId>
                 <version>${org.antlr-version}</version>
             </dependency>
+
+            <!-- Testing -->
             <dependency>
-                <groupId>org.antlr</groupId>
-                <artifactId>antlr4-annotations</artifactId>
-                <version>${org.antlr-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.antlr</groupId>
-                <artifactId>antlr4-master</artifactId>
-                <version>${org.antlr-version}</version>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit-version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
