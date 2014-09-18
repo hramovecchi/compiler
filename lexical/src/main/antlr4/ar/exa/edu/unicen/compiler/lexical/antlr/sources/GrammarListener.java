@@ -9,6 +9,28 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface GrammarListener extends ParseTreeListener {
 	/**
+	 * Enter a parse tree produced by {@link GrammarParser#ignore}.
+	 * @param ctx the parse tree
+	 */
+	void enterIgnore(@NotNull GrammarParser.IgnoreContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GrammarParser#ignore}.
+	 * @param ctx the parse tree
+	 */
+	void exitIgnore(@NotNull GrammarParser.IgnoreContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link GrammarParser#id}.
+	 * @param ctx the parse tree
+	 */
+	void enterId(@NotNull GrammarParser.IdContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GrammarParser#id}.
+	 * @param ctx the parse tree
+	 */
+	void exitId(@NotNull GrammarParser.IdContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link GrammarParser#evaluate}.
 	 * @param ctx the parse tree
 	 */
@@ -18,4 +40,15 @@ public interface GrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitEvaluate(@NotNull GrammarParser.EvaluateContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link GrammarParser#digit}.
+	 * @param ctx the parse tree
+	 */
+	void enterDigit(@NotNull GrammarParser.DigitContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GrammarParser#digit}.
+	 * @param ctx the parse tree
+	 */
+	void exitDigit(@NotNull GrammarParser.DigitContext ctx);
 }
