@@ -13,7 +13,9 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <org.antlr-version>4.3</org.antlr-version>
+        <org.springframework-version>3.2.4.RELEASE</org.springframework-version>
+        <org.slf4j-version>1.7.5</org.slf4j-version>
+        <ch.qos.logback-version>1.0.13</ch.qos.logback-version>
         <junit-version>4.11</junit-version>
     </properties>
 
@@ -50,12 +52,23 @@
     </build>
 
     <dependencyManagement>
-        <!-- Antlr -->
         <dependencies>
+            <!-- Third party dependencies -->
             <dependency>
-                <groupId>org.antlr</groupId>
-                <artifactId>antlr4-runtime</artifactId>
-                <version>${org.antlr-version}</version>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${org.slf4j-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${ch.qos.logback-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+                <version>${ch.qos.logback-version}</version>
             </dependency>
 
             <!-- Testing -->

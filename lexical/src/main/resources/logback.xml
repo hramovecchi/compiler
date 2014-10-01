@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- There is not DTD or XSD for logback.xml because the syntax is extremely 
+    flexible. Thread discussion here
+    http://www.mail-archive.com/logback-user@qos.ch/msg00055.html
+-->
+<!DOCTYPE configuration>
+<configuration>
+    <if condition='isNull("lexical.logging.appender")'>
+        <then>
+            <property name="lexical.logging.appender" value="STDOUT" />
+        </then>
+    </if>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %-20logger{0} - %msg%n</pattern>
+        </encoder>
+        <target>-System.out</target>
+    </appender>
+
+    <if condition='property("lexical.logging.appender").equals("FILE")'>
+        <then>
+            <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+                <encoder>
+                    <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %-20logger{0} - %msg%n</pattern>
+                </encoder>
+                <file>${lexical.logging.file:-output.log}</file>
+                <append>false</append>
+            </appender>
+        </then>
+    </if>
+
+    <logger name="ar.exa.edu.unicen.compiler.lexical" level="${lexical.logging.level:-INFO}">
+        <appender-ref ref="${lexical.logging.appender}" />
+    </logger>
+
+    <root level="ERROR">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>

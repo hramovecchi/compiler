@@ -20,30 +20,14 @@
     <build>
         <resources>
             <resource>
-                <directory>src/test/resources</directory>
+                <directory>src/main/resources</directory>
             </resource>
             <resource>
-                <directory>src/main/antlr4</directory>
+                <directory>src/test/resources</directory>
             </resource>
         </resources>
 
         <plugins>
-            <plugin>
-                <groupId>org.antlr</groupId>
-                <artifactId>antlr4-maven-plugin</artifactId>
-                <version>4.3</version>
-                <configuration>
-                    <outputDirectory>src/main/antlr4</outputDirectory>
-                </configuration>
-                <executions>
-                    <execution>
-                            <goals>
-                                <goal>antlr4</goal>
-                            </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -56,9 +40,15 @@
     </build>
 
     <dependencies>
+        <!-- Third party dependencies -->
         <dependency>
-            <groupId>org.antlr</groupId>
-            <artifactId>antlr4-runtime</artifactId>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
         </dependency>
 
         <dependency>

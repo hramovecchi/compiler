@@ -1,9 +1,0 @@
-Letter=5
-COMMENT_OPEN=2
-COMMENT_TEXT=3
-Number=6
-WHITESPACE=1
-LineComment=7
-COMMENT_CLOSE=4
-'*'=2
-'\n'=4

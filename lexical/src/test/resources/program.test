@@ -1,0 +1,13 @@
+entero variable_muy_larga := 20 
+
+si variable_muy_larga < 33 entonces
+	imprimir 123.4
+
+'acá va un + string   
+	
+
+      + que continúa acá'
+
+
+** Esto es un comentario
+
