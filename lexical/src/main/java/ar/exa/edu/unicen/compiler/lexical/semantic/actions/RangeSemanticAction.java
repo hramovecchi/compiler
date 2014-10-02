@@ -18,17 +18,8 @@ public class RangeSemanticAction implements SemanticAction {
 
         String[] number = lexeme.split("\\..");
         if (number.length == 1) {
-            int value = Integer.parseInt(number[0]);
-            if (value < 0) {
-                final String err =
-                        String.format("Rangos no puede ser menor a 0. "
-                                + "Valor: %d < 0", value);
-                throw new SemanticActionException(err);
-            }
-
             tuples.add(new Tuple(number[0], Token.CONST_INTEGER));
         }
-
         tuples.add(new Tuple("..", token));
     }
 
