@@ -6,7 +6,7 @@ import ar.exa.edu.unicen.compiler.lexical.analyzer.Token;
 import ar.exa.edu.unicen.compiler.lexical.analyzer.Tuple;
 
 /**
- * Verifies the double ranges.
+ * Verifies double ranges.
  * 
  * @author pmvillafane
  */
