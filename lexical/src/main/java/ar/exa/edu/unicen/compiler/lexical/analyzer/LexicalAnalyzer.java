@@ -24,13 +24,13 @@ public class LexicalAnalyzer {
     private static final Logger LOGGER = LoggerFactory
             .getLogger(LexicalAnalyzer.class);
 
-    private final List<Tuple> tuples = new ArrayList<Tuple>();
-
     private final Map<String, Category> nodeCategories =
             new HashMap<String, Category>();
 
     private final Map<Token, SemanticAction> semanticActions =
             new HashMap<Token, SemanticAction>();
+
+    private List<Tuple> tuples;
 
     private StringBuilder text;
 
@@ -56,9 +56,6 @@ public class LexicalAnalyzer {
         semanticActions.put(Token.ID, new TruncateIdAction());
         semanticActions.put(Token.CONST_DOUBLE, new DoubleRangeAction());
         semanticActions.put(Token.STRING, new StringFixerAction());
-
-        // Initializes the token appender.
-        text = new StringBuilder();
     }
 
     /**
@@ -133,6 +130,14 @@ public class LexicalAnalyzer {
      */
     public List<Tuple> getTuples() {
         return tuples;
+    }
+
+    /**
+     * Initializes Lexical Analyzer.
+     */
+    public void init() {
+        tuples = new ArrayList<Tuple>();
+        text = new StringBuilder();
     }
 
 }

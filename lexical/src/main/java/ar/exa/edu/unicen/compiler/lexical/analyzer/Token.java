@@ -38,19 +38,19 @@ public enum Token {
 
     // Comparators.
     EQ("=", "Comparador", 600, Category.OPERATOR),
-    NOT("\\^=", "Comparador", 601, Category.OPERATOR),
+    NE("\\^=", "Comparador", 601, Category.OPERATOR),
     LT("<", "Comparador", 602, Category.OPERATOR),
     GT(">", "Comparador", 603, Category.OPERATOR),
     LE("<=", "Comparador", 604, Category.OPERATOR),
     GE(">=", "Comparador", 605, Category.OPERATOR),
 
-    // Others.
-    BRACKET_OPEN("\\(", "Sentencia de Bloque", 700, Category.OPERATOR),
-    BRACKET_CLOSE("\\)", "Sentencia de Bloque", 701, Category.OPERATOR),
-    SQUARE_BRACKET_OPEN("\\[", "Sentencia de Bloque", 702, Category.OPERATOR),
-    SQUARE_BRACKET_CLOSE("\\]", "Sentencia de Bloque", 703, Category.OPERATOR),
-    KEY_OPEN("\\{", "Sentencia de Bloque", 704, Category.OPERATOR),
-    KEY_CLOSE("\\}", "Sentencia de Bloque", 705, Category.OPERATOR),
+    // Expression operators.
+    LPAREN("\\(", "Sentencia de Bloque", 700, Category.OPERATOR),
+    RPAREN("\\)", "Sentencia de Bloque", 701, Category.OPERATOR),
+    LBRACK("\\[", "Sentencia de Bloque", 702, Category.OPERATOR),
+    RBRACK("\\]", "Sentencia de Bloque", 703, Category.OPERATOR),
+    LBRACE("\\{", "Sentencia de Bloque", 704, Category.OPERATOR),
+    RBRACE("\\}", "Sentencia de Bloque", 705, Category.OPERATOR),
     COMMA("\\,", "Separador", 706, Category.OPERATOR),
     SEMICOLON("\\;", "Fin de Sentencia", 707, Category.OPERATOR);
 

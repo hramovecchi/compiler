@@ -9,8 +9,14 @@ public class SemanticActionException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
-    public SemanticActionException() {
-        super("Semantic unrecoverable error");
+    /**
+     * Default constructor.
+     * 
+     * @param err
+     *            the error message.
+     */
+    public SemanticActionException(final String err) {
+        super(err);
     }
 
 }

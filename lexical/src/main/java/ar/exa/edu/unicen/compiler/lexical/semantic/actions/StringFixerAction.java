@@ -29,7 +29,7 @@ public class StringFixerAction implements SemanticAction {
             }
         }
 
-        LOGGER.warn("Unificando string {}", fixedString.toString());
+        LOGGER.debug("Unificando string {}", fixedString.toString());
 
         return fixedString.toString();
     }

@@ -6,9 +6,6 @@ import static com.aveise.automaton.utils.ParamUtils.notNull;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * Models the behavior of a node.
  * 
@@ -17,8 +14,6 @@ import org.slf4j.LoggerFactory;
  * @param <T> the token element associated to the <i>Automaton</i>.
  */
 public abstract class Node<T> {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(Node.class);
 
     // List of the destinies associated to the node.
     private final Map<T, Node<T>> destinies = new HashMap<T, Node<T>>();
@@ -69,8 +64,7 @@ public abstract class Node<T> {
             destiny.previousName = name;
             destiny.doSomething(token);
         } catch (NullPointerException e) {
-            LOGGER.error("Error iterating on token: {}", token);
-            throw new IllegalStateException(name, e);
+            throw new IllegalStateException(name, token, e);
         }
         return destiny;
     }

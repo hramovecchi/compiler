@@ -1,7 +1,5 @@
 package ar.exa.edu.unicen.compiler.lexical.semantic.actions;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Verifies the double ranges.
@@ -9,9 +7,6 @@ import org.slf4j.LoggerFactory;
  * @author pmvillafane
  */
 public class DoubleRangeAction implements SemanticAction {
-
-    private static final Logger LOGGER = LoggerFactory
-            .getLogger(DoubleRangeAction.class);
 
     private static final double minDouble =
             stringToDouble("2.2250738585072014b-308");
@@ -55,11 +50,11 @@ public class DoubleRangeAction implements SemanticAction {
             return lexeme;
         }
 
-        LOGGER.error("Valor doble {} está fuera de rango. Rango válido: "
-                + "2.2250738585072014b-308 < |x| < 1.7976931348623157b308",
-                lexeme);
-
-        throw new SemanticActionException();
+        final String err =
+                String.format("Valor doble %s está fuera de rango."
+                        + " Rango válido: 2.2250738585072014b-308 < "
+                        + "|x| < 1.7976931348623157b308", lexeme);
+        throw new SemanticActionException(err);
     }
 
 }
