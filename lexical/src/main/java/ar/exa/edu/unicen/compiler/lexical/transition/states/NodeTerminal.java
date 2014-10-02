@@ -28,12 +28,14 @@ public class NodeTerminal extends Node<Character> {
 
     @Override
     protected void doSomething(final Character c) {
+
         // Cleanup the characters appended and detect the type of token.
         final boolean wasTerminal =
-                this.lexicalAnalyzer.buildToken(this.getPreviousNode().getName());
+                this.lexicalAnalyzer.buildToken(this.getPreviousNode()
+                        .getName(), c);
 
         if (wasTerminal) {
-            this.lexicalAnalyzer.cleanTextAppender();
+            this.lexicalAnalyzer.cleanCharacterAppender();
             this.moveTo = this.next(c);
         }
     }

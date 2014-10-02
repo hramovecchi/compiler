@@ -1,7 +1,7 @@
 package ar.exa.edu.unicen.compiler.lexical.analyzer;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static ar.exa.edu.unicen.compiler.lexical.utils.MessageUtils.info;
+import ar.exa.edu.unicen.compiler.lexical.utils.MessageUtils.Phase;
 
 /**
  * Models the pair <Lexeme, Token>.
@@ -11,11 +11,11 @@ import org.slf4j.LoggerFactory;
  */
 public class Tuple {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Tuple.class);
-
     private final String lexeme;
 
     private final Token token;
+
+    private final int line;
 
     /**
      * Default constructor.
@@ -24,14 +24,16 @@ public class Tuple {
      *            the lexeme.
      * @param token
      *            associated token.
+     * @param line
+     *            line number.
      */
-    public Tuple(final String lexeme, final Token token) {
+    public Tuple(final String lexeme, final Token token, final int line) {
 
         this.lexeme = lexeme;
         this.token = token;
+        this.line = line;
 
-        LOGGER.info("{}: < {}, {} >", token.getDescription(), token.getId(),
-                lexeme);
+        info(Phase.LEXICAL, lexeme, token, line);
     }
 
     /**
@@ -50,6 +52,15 @@ public class Tuple {
      */
     public Token getToken() {
         return token;
+    }
+
+    /**
+     * Gets the line number.
+     * 
+     * @return the line number.
+     */
+    public int getLine() {
+        return line;
     }
 
 }

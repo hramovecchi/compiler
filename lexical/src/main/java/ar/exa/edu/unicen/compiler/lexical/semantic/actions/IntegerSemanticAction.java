@@ -1,9 +1,12 @@
 package ar.exa.edu.unicen.compiler.lexical.semantic.actions;
 
+import static ar.exa.edu.unicen.compiler.lexical.utils.MessageUtils.error;
+
 import java.util.List;
 
 import ar.exa.edu.unicen.compiler.lexical.analyzer.Token;
 import ar.exa.edu.unicen.compiler.lexical.analyzer.Tuple;
+import ar.exa.edu.unicen.compiler.lexical.utils.MessageUtils.Phase;
 
 /**
  * Verifies integer ranges.
@@ -18,19 +21,17 @@ public class IntegerSemanticAction implements SemanticAction {
 
     @Override
     public void doAction(final String lexeme, final List<Tuple> tuples,
-            final Token token) {
+            final Token token, final int line) {
 
         int value = Integer.valueOf(lexeme);
 
         if (minInteger < value && value < maxInteger) {
-            tuples.add(new Tuple(lexeme, token));
+            tuples.add(new Tuple(lexeme, token, line));
             return;
         }
 
-        final String err =
-                String.format("Valor integer %s está fuera de rango."
-                        + " Rango válido: -2^15 < |x| < 2^15-1", lexeme);
-        throw new SemanticActionException(err);
+        final String err = "Rango inválido. Rango debe ser -2^15 < x < 2^15-1";
+        error(Phase.LEXICAL, lexeme, token, line, err);
     }
 
 }

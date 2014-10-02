@@ -21,7 +21,9 @@ public interface SemanticAction {
      *            list of tuples.
      * @param token
      *            the token being evaluated.
+     * @param line
+     *            line number.
      */
-    void doAction(String lexeme, List<Tuple> tuples, Token token);
+    void doAction(String lexeme, List<Tuple> tuples, Token token, int line);
 
 }

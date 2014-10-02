@@ -1,5 +1,8 @@
 package ar.exa.edu.unicen.compiler.lexical.analyzer;
 
+import static ar.exa.edu.unicen.compiler.lexical.utils.MessageUtils.error;
+import ar.exa.edu.unicen.compiler.lexical.utils.MessageUtils.Phase;
+
 /**
  * Constant class that defines all the possible token recognizable by the
  * grammar.
@@ -128,9 +131,12 @@ public enum Token {
      *            the category assigned to the token.
      * @param lexeme
      *            the lexeme to evaluate.
+     * @param line
+     *            line number.
      * @return the token. This value cannot be <b>null</b>.
      */
-    public static Token findToken(final Category category, final String lexeme) {
+    public static Token findToken(final Category category, final String lexeme,
+            final int line) {
 
         for (Token token : Token.values()) {
             if (token.getCategory().equals(category)
@@ -139,10 +145,8 @@ public enum Token {
             }
         }
 
-        final String err =
-                String.format("FATAL - Código fuente no válido: "
-                        + "Token \"%s\" no encontrado.", lexeme);
-        throw new RuntimeException(err);
+        error(Phase.LEXICAL, line, String.format("Token %s no válido", lexeme));
+        return null;
     }
 
 }

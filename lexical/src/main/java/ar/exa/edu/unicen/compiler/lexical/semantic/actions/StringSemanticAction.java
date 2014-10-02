@@ -1,42 +1,43 @@
 package ar.exa.edu.unicen.compiler.lexical.semantic.actions;
 
-import java.util.List;
+import static ar.exa.edu.unicen.compiler.lexical.utils.MessageUtils.debug;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.List;
 
 import ar.exa.edu.unicen.compiler.lexical.analyzer.Token;
 import ar.exa.edu.unicen.compiler.lexical.analyzer.Tuple;
+import ar.exa.edu.unicen.compiler.lexical.utils.MessageUtils.Phase;
 
 /**
  * Fixes a string representation: <br />
  * <br />
- * - Removes newline characters like \r, \n.
- * - Removes the character '+' in case of multiline.
+ * - Removes newline characters like \r, \n. - Removes the character '+' in case
+ * of multiline.
  *
  * @author pmvillafane
  */
 public class StringSemanticAction implements SemanticAction {
 
-    private static final Logger LOGGER = LoggerFactory
-            .getLogger(StringSemanticAction.class);
-
     @Override
     public void doAction(final String lexeme, final List<Tuple> tuples,
-            final Token token) {
+            final Token token, final int line) {
 
         final StringBuilder fixedString = new StringBuilder();
         final String[] strFragments = lexeme.replace("\r", "").split("\n");
-        for (String str : strFragments) {
-            if (!str.startsWith("'")) {
-                fixedString.append(str.trim().replaceFirst("\\+", ""));
+        for (final String value : strFragments) {
+            if (!value.startsWith("'")) {
+                fixedString.append(value.trim().replaceFirst("\\+", ""));
             } else {
-                fixedString.append(str);
+                fixedString.append(value);
             }
         }
 
-        LOGGER.debug("Unificando string {}", fixedString.toString());
-        tuples.add(new Tuple(fixedString.toString(), token));
+        final String str = fixedString.toString();
+        final String debug =
+                String.format("Cadena de caracteres %s unificada", str);
+        debug(Phase.LEXICAL, lexeme, token, line, debug);
+
+        tuples.add(new Tuple(str, token, line));
     }
 
 }

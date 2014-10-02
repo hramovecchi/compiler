@@ -1,5 +1,7 @@
 package ar.exa.edu.unicen.compiler.lexical;
 
+import static ar.exa.edu.unicen.compiler.lexical.utils.MessageUtils.error;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -14,7 +16,8 @@ import org.slf4j.LoggerFactory;
 
 import ar.exa.edu.unicen.compiler.lexical.analyzer.LexicalAnalyzer;
 import ar.exa.edu.unicen.compiler.lexical.analyzer.Tuple;
-import ar.exa.edu.unicen.compiler.lexical.semantic.actions.SemanticActionException;
+import ar.exa.edu.unicen.compiler.lexical.utils.CompilerException;
+import ar.exa.edu.unicen.compiler.lexical.utils.MessageUtils.Phase;
 
 import com.aveise.automaton.graph.IllegalStateException;
 import com.aveise.automaton.graph.Node;
@@ -75,13 +78,26 @@ public class Lexical {
             int r;
             Node<Character> node = automatonFileReader.initialNode();
             while ((r = reader.read()) != -1) {
-                node = node.next((char) r);
+                final char c = (char) r;
+
+                // Counting lines.
+                this.lexicalAnalyzer.countLine(c);
+
+                // Moving to the next token.
+                node = node.next(c);
             }
             reader.close();
-        } catch (SemanticActionException e) {
+        } catch (CompilerException e) {
             LOGGER.error(e.getMessage());
         } catch (IllegalStateException e) {
-            LOGGER.error(String.format("Caracter inválido: %s", e.getToken()));
+
+            try {
+                error(Phase.LEXICAL, this.lexicalAnalyzer.getLine(), String
+                        .format("Caracter no válido %s", e.getToken()));
+            } catch (CompilerException ex) {
+                LOGGER.error(ex.getMessage());
+            }
+
         }
 
         return lexicalAnalyzer.getTuples();

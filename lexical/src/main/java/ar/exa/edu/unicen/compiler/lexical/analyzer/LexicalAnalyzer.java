@@ -30,6 +30,8 @@ public class LexicalAnalyzer {
 
     private StringBuilder text;
 
+    private int line = 1;
+
     /**
      * Default constructor.
      */
@@ -76,23 +78,23 @@ public class LexicalAnalyzer {
      * @param c
      *            latest character that was recollected.
      */
-    public boolean buildToken(final String previuosNodeName) {
+    public boolean buildToken(final String previuosNodeName, final char c) {
 
         final Category category = nodeCategories.get(previuosNodeName);
 
         // Discard comments.
         if (category != null && !Category.COMMENT.equals(category)) {
             String lexeme = text.toString();
-            final Token token = Token.findToken(category, lexeme);
+            final Token token = Token.findToken(category, lexeme, line);
 
             // Perform semantic action.
             final SemanticAction action = semanticActions.get(token);
             if (action != null) {
                 // Internally adds the new tuples to the token list.
-                action.doAction(lexeme, tuples, token);
+                action.doAction(lexeme, tuples, token, line);
             } else {
                 // Adds the new tuple to the tokens list.
-                final Tuple tuple = new Tuple(lexeme, token);
+                final Tuple tuple = new Tuple(lexeme, token, line);
                 tuples.add(tuple);
             }
 
@@ -119,11 +121,35 @@ public class LexicalAnalyzer {
      */
     public void init() {
         tuples = new ArrayList<Tuple>();
-        cleanTextAppender();
+        cleanCharacterAppender();
     }
 
-    public void cleanTextAppender() {
+    /**
+     * Cleans character appender.
+     */
+    public void cleanCharacterAppender() {
         text = new StringBuilder();
+    }
+
+    /**
+     * Counting line number.
+     *
+     * @param c
+     *            character to evaluate.
+     */
+    public void countLine(final char c) {
+        if (c == '\n') {
+            line++;
+        }
+    }
+
+    /**
+     * Gets the current line number.
+     * 
+     * @return line number.
+     */
+    public int getLine() {
+        return line;
     }
 
 }
