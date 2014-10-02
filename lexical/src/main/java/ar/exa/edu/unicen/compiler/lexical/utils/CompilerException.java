@@ -33,23 +33,23 @@ public class CompilerException extends RuntimeException {
                 lexeme, err));
     }
 
-//    /**
-//     * Constructs a {@link RuntimeException} without use token information.
-//     * 
-//     * @param phase
-//     *            compilation phase.
-//     * @param lexeme
-//     *            the lexeme.
-//     * @param line
-//     *            line number.
-//     * @param err
-//     *            the error message.
-//     */
-//    public CompilerException(final Phase phase, final String lexeme,
-//            final String line, final String err) {
-//        super(String.format("%s - Línea %s: Char %s - %s", phase.getName(),
-//                line, lexeme, err));
-//    }
+    // /**
+    // * Constructs a {@link RuntimeException} without use token information.
+    // *
+    // * @param phase
+    // * compilation phase.
+    // * @param lexeme
+    // * the lexeme.
+    // * @param line
+    // * line number.
+    // * @param err
+    // * the error message.
+    // */
+    // public CompilerException(final Phase phase, final String lexeme,
+    // final String line, final String err) {
+    // super(String.format("%s - Línea %s: Char %s - %s", phase.getName(),
+    // line, lexeme, err));
+    // }
 
     /**
      * Constructs a {@link RuntimeException} without use token information.
