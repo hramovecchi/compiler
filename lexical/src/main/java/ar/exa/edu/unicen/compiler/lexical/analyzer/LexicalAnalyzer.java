@@ -6,10 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 import ar.exa.edu.unicen.compiler.lexical.semantic.actions.DoubleSemanticAction;
+import ar.exa.edu.unicen.compiler.lexical.semantic.actions.IdSemanticAction;
+import ar.exa.edu.unicen.compiler.lexical.semantic.actions.IntegerSemanticAction;
 import ar.exa.edu.unicen.compiler.lexical.semantic.actions.RangeSemanticAction;
 import ar.exa.edu.unicen.compiler.lexical.semantic.actions.SemanticAction;
 import ar.exa.edu.unicen.compiler.lexical.semantic.actions.StringSemanticAction;
-import ar.exa.edu.unicen.compiler.lexical.semantic.actions.IdSemanticAction;
 
 /**
  * Lexical analyzer in charge of detect the type of token coming from source
@@ -50,6 +51,7 @@ public class LexicalAnalyzer {
 
         // Defines the semantic actions to perform in case of token detection.
         semanticActions.put(Token.ID, new IdSemanticAction());
+        semanticActions.put(Token.CONST_INTEGER, new IntegerSemanticAction());
         semanticActions.put(Token.CONST_DOUBLE, new DoubleSemanticAction());
         semanticActions.put(Token.STRING, new StringSemanticAction());
         semanticActions.put(Token.RANGE, new RangeSemanticAction());
