@@ -81,7 +81,7 @@ public class Lexical {
         } catch (SemanticActionException e) {
             LOGGER.error(e.getMessage());
         } catch (IllegalStateException e) {
-            LOGGER.error(String.format("Caracter invalido: %s", e.getToken()));
+            LOGGER.error(String.format("Caracter inválido: %s", e.getToken()));
         }
 
         return lexicalAnalyzer.getTuples();
