@@ -16,8 +16,10 @@ public class NodeTerminal extends Node<Character> {
     /**
      * Default constructor.
      * 
-     * @param name name assigned to the node.
-     * @param lexicalAnalyzer grammar manager.
+     * @param name
+     *            name assigned to the node.
+     * @param lexicalAnalyzer
+     *            lexical analyzer.
      */
     public NodeTerminal(final String name, final LexicalAnalyzer lexicalAnalyzer) {
         super(name);
@@ -27,7 +29,13 @@ public class NodeTerminal extends Node<Character> {
     @Override
     protected void doSomething(final Character c) {
         // Cleanup the characters appended and detect the type of token.
-        this.lexicalAnalyzer.buildToken(super.getPreviousName(), c);
+        final boolean wasTerminal =
+                this.lexicalAnalyzer.buildToken(this.getPreviousNode().getName());
+
+        if (wasTerminal) {
+            this.lexicalAnalyzer.cleanTextAppender();
+            this.moveTo = this.next(c);
+        }
     }
 
 }

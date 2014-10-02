@@ -52,7 +52,8 @@ public enum Token {
     LBRACE("\\{", "Sentencia de Bloque", 704, Category.OPERATOR),
     RBRACE("\\}", "Sentencia de Bloque", 705, Category.OPERATOR),
     COMMA("\\,", "Separador", 706, Category.OPERATOR),
-    SEMICOLON("\\;", "Fin de Sentencia", 707, Category.OPERATOR);
+    SEMICOLON("\\;", "Fin de Sentencia", 707, Category.OPERATOR),
+    RANGE("[0-9]*..", "Operador de Rango de Vectores", 708, Category.OPERATOR);
 
     private final String type;
 

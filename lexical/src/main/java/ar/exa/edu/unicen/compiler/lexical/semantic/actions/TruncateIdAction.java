@@ -1,7 +1,12 @@
 package ar.exa.edu.unicen.compiler.lexical.semantic.actions;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import ar.exa.edu.unicen.compiler.lexical.analyzer.Token;
+import ar.exa.edu.unicen.compiler.lexical.analyzer.Tuple;
 
 /**
  * Truncates an identifier if it has size bigger than 12.
@@ -14,7 +19,8 @@ public class TruncateIdAction implements SemanticAction {
             .getLogger(TruncateIdAction.class);
 
     @Override
-    public String doAction(final String lexeme) {
+    public void doAction(final String lexeme, final List<Tuple> tuples,
+            final Token token) {
 
         if (lexeme.length() > 12) {
 
@@ -22,11 +28,11 @@ public class TruncateIdAction implements SemanticAction {
 
             LOGGER.warn("Identificador \"{}\" fue truncado a \"{}\"", lexeme,
                     truncated);
-
-            return truncated;
+            tuples.add(new Tuple(truncated, token));
+            return;
         }
 
-        return lexeme;
+        tuples.add(new Tuple(lexeme, token));
     }
 
 }

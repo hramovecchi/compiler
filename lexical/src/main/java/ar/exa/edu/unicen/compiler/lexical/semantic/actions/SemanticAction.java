@@ -1,5 +1,10 @@
 package ar.exa.edu.unicen.compiler.lexical.semantic.actions;
 
+import java.util.List;
+
+import ar.exa.edu.unicen.compiler.lexical.analyzer.Token;
+import ar.exa.edu.unicen.compiler.lexical.analyzer.Tuple;
+
 /**
  * Defines the behavior of a Semantic Action.
  * 
@@ -12,8 +17,11 @@ public interface SemanticAction {
      * 
      * @param lexeme
      *            the text to evaluate.
-     * @return the lexeme after evaluation.
+     * @param tuples
+     *            list of tuples.
+     * @param token
+     *            the token being evaluated.
      */
-    String doAction(String lexeme);
+    void doAction(String lexeme, List<Tuple> tuples, Token token);
 
 }

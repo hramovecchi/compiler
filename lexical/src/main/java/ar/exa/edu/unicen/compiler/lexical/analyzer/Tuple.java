@@ -1,5 +1,8 @@
 package ar.exa.edu.unicen.compiler.lexical.analyzer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Models the pair <Lexeme, Token>.
  * 
@@ -7,6 +10,8 @@ package ar.exa.edu.unicen.compiler.lexical.analyzer;
  * 
  */
 public class Tuple {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Tuple.class);
 
     private final String lexeme;
 
@@ -21,8 +26,12 @@ public class Tuple {
      *            associated token.
      */
     public Tuple(final String lexeme, final Token token) {
+
         this.lexeme = lexeme;
         this.token = token;
+
+        LOGGER.info("{}: < {}, {} >", token.getDescription(), token.getId(),
+                lexeme);
     }
 
     /**

@@ -1,7 +1,12 @@
 package ar.exa.edu.unicen.compiler.lexical.semantic.actions;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import ar.exa.edu.unicen.compiler.lexical.analyzer.Token;
+import ar.exa.edu.unicen.compiler.lexical.analyzer.Tuple;
 
 /**
  * Fixes a string representation: <br />
@@ -17,7 +22,8 @@ public class StringFixerAction implements SemanticAction {
             .getLogger(StringFixerAction.class);
 
     @Override
-    public String doAction(final String lexeme) {
+    public void doAction(final String lexeme, final List<Tuple> tuples,
+            final Token token) {
 
         final StringBuilder fixedString = new StringBuilder();
         final String[] strFragments = lexeme.replace("\r", "").split("\n");
@@ -30,8 +36,7 @@ public class StringFixerAction implements SemanticAction {
         }
 
         LOGGER.debug("Unificando string {}", fixedString.toString());
-
-        return fixedString.toString();
+        tuples.add(new Tuple(fixedString.toString(), token));
     }
 
 }

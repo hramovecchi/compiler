@@ -1,6 +1,6 @@
 nodes {
     00: ar.exa.edu.unicen.compiler.lexical.transition.states.NodeTerminal;
-    01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12, 13, 14, 15, 16: ar.exa.edu.unicen.compiler.lexical.transition.states.NodeNonTerminal;
+    01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12, 13, 14, 15, 16, 17: ar.exa.edu.unicen.compiler.lexical.transition.states.NodeNonTerminal;
 }
 
 edges {
@@ -16,40 +16,41 @@ edges {
     00, 12: *;
     00, 14: ';
 
+    01, 00: @anything;
     01, 01: @alphanumeric, _, &, $;
-    01, 00: @separator, (, ), {, }, [, ], @comma, @semicolon;
 
+    02, 00: @anything;
     02, 02: @number;
     02, 04: .;
     02, 06: B, b;
-    02, 00: @separator, (, ), {, }, [, ], @comma, @semicolon;
 
     03, 02: @number;
 
     04, 05: @number;
     04, 06: B, b;
-    04, 00: @separator, (, ), {, }, [, ], @comma, @semicolon;
+    04, 00: @separator;
+    04, 17: .;
 
+    05, 00: @anything;
     05, 05: @number;
     05, 06: B, b;
-    05, 00: @separator, (, ), {, }, [, ], @comma, @semicolon;
 
     06, 07: +, -, @number;
 
+    07, 00: @anything;
     07, 07: @number;
-    07, 00: @separator, (, ), {, }, [, ], @comma, @semicolon;
 
-    08, 00: @separator;
+    08, 00: @anything;
 
+    09, 00: @anything;
     09, 10: =;
-    09, 00: @separator;
 
-    10, 00: @separator;
+    10, 00: @anything;
 
     11, 10: =;
 
+    12, 00: @anything;
     12, 13: *;
-    12, 00: @separator;
 
     13, 13: @anything;
     13, 00: @newline;
@@ -62,6 +63,8 @@ edges {
     15, 14: +;
 
     16, 00: @anything;
+
+    17, 00: @anything;
 }
 
 initial {

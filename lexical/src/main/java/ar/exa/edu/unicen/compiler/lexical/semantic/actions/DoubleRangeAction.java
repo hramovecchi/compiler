@@ -1,5 +1,9 @@
 package ar.exa.edu.unicen.compiler.lexical.semantic.actions;
 
+import java.util.List;
+
+import ar.exa.edu.unicen.compiler.lexical.analyzer.Token;
+import ar.exa.edu.unicen.compiler.lexical.analyzer.Tuple;
 
 /**
  * Verifies the double ranges.
@@ -37,7 +41,8 @@ public class DoubleRangeAction implements SemanticAction {
     }
 
     @Override
-    public String doAction(final String lexeme) {
+    public void doAction(final String lexeme, final List<Tuple> tuples,
+            final Token token) {
 
         double value = stringToDouble(lexeme);
 
@@ -47,7 +52,8 @@ public class DoubleRangeAction implements SemanticAction {
         }
 
         if (minDouble < value && value < maxDouble) {
-            return lexeme;
+            tuples.add(new Tuple(lexeme, token));
+            return;
         }
 
         final String err =

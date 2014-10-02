@@ -5,10 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import ar.exa.edu.unicen.compiler.lexical.semantic.actions.DoubleRangeAction;
+import ar.exa.edu.unicen.compiler.lexical.semantic.actions.RangeSemanticAction;
 import ar.exa.edu.unicen.compiler.lexical.semantic.actions.SemanticAction;
 import ar.exa.edu.unicen.compiler.lexical.semantic.actions.StringFixerAction;
 import ar.exa.edu.unicen.compiler.lexical.semantic.actions.TruncateIdAction;
@@ -20,9 +18,6 @@ import ar.exa.edu.unicen.compiler.lexical.semantic.actions.TruncateIdAction;
  * @author pmvillafane
  */
 public class LexicalAnalyzer {
-
-    private static final Logger LOGGER = LoggerFactory
-            .getLogger(LexicalAnalyzer.class);
 
     private final Map<String, Category> nodeCategories =
             new HashMap<String, Category>();
@@ -51,37 +46,13 @@ public class LexicalAnalyzer {
         nodeCategories.put("12", Category.OPERATOR);
         nodeCategories.put("13", Category.COMMENT);
         nodeCategories.put("16", Category.TEXT);
+        nodeCategories.put("17", Category.OPERATOR);
 
         // Defines the semantic actions to perform in case of token detection.
         semanticActions.put(Token.ID, new TruncateIdAction());
         semanticActions.put(Token.CONST_DOUBLE, new DoubleRangeAction());
         semanticActions.put(Token.STRING, new StringFixerAction());
-    }
-
-    /**
-     * Tokenizes the given lexeme according to the corresponding category.
-     *
-     * @param category
-     *            the category associated to the given lexeme.
-     * @param lexeme
-     *            the lexeme to tokenize.
-     */
-    private void tokenize(final Category category, String lexeme) {
-
-        final Token token = Token.findToken(category, lexeme);
-
-        // Perform semantic action.
-        final SemanticAction action = semanticActions.get(token);
-        if (action != null) {
-            lexeme = action.doAction(lexeme);
-        }
-
-        // Add the new tuple to the tokens list.
-        final Tuple tuple = new Tuple(lexeme, token);
-        tuples.add(tuple);
-
-        LOGGER.info("{}: < {}, {} >", token.getDescription(), token.getId(),
-                lexeme);
+        semanticActions.put(Token.RANGE, new RangeSemanticAction());
     }
 
     /**
@@ -103,24 +74,33 @@ public class LexicalAnalyzer {
      * @param c
      *            latest character that was recollected.
      */
-    public void buildToken(final String previuosNodeName, final Character c) {
+    public boolean buildToken(final String previuosNodeName) {
 
         final Category category = nodeCategories.get(previuosNodeName);
 
         // Discard comments.
         if (category != null && !Category.COMMENT.equals(category)) {
             String lexeme = text.toString();
-            tokenize(category, lexeme);
-        }
+            final Token token = Token.findToken(category, lexeme);
 
-        // Evaluating last character.
-        if (c != ' ' && c != '\t' && c != '\r' && c != '\n') {
-            String lexeme = String.valueOf(c);
-            tokenize(Category.OPERATOR, lexeme);
+            // Perform semantic action.
+            final SemanticAction action = semanticActions.get(token);
+            if (action != null) {
+                // Internally adds the new tuples to the token list.
+                action.doAction(lexeme, tuples, token);
+            } else {
+                // Adds the new tuple to the tokens list.
+                final Tuple tuple = new Tuple(lexeme, token);
+                tuples.add(tuple);
+            }
+
+            return true;
         }
 
         // Re-initialize the token appender.
         text = new StringBuilder();
+
+        return false;
     }
 
     /**
@@ -137,6 +117,10 @@ public class LexicalAnalyzer {
      */
     public void init() {
         tuples = new ArrayList<Tuple>();
+        cleanTextAppender();
+    }
+
+    public void cleanTextAppender() {
         text = new StringBuilder();
     }
 
