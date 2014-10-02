@@ -13,10 +13,10 @@ import ar.exa.edu.unicen.compiler.lexical.analyzer.Tuple;
  * 
  * @author pmvillafane
  */
-public class TruncateIdAction implements SemanticAction {
+public class IdSemanticAction implements SemanticAction {
 
     private static final Logger LOGGER = LoggerFactory
-            .getLogger(TruncateIdAction.class);
+            .getLogger(IdSemanticAction.class);
 
     @Override
     public void doAction(final String lexeme, final List<Tuple> tuples,

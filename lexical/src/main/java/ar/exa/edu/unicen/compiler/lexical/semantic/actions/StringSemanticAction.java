@@ -16,10 +16,10 @@ import ar.exa.edu.unicen.compiler.lexical.analyzer.Tuple;
  *
  * @author pmvillafane
  */
-public class StringFixerAction implements SemanticAction {
+public class StringSemanticAction implements SemanticAction {
 
     private static final Logger LOGGER = LoggerFactory
-            .getLogger(StringFixerAction.class);
+            .getLogger(StringSemanticAction.class);
 
     @Override
     public void doAction(final String lexeme, final List<Tuple> tuples,

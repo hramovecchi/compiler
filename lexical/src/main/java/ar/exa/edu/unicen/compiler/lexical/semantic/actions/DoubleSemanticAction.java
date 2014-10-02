@@ -10,7 +10,7 @@ import ar.exa.edu.unicen.compiler.lexical.analyzer.Tuple;
  * 
  * @author pmvillafane
  */
-public class DoubleRangeAction implements SemanticAction {
+public class DoubleSemanticAction implements SemanticAction {
 
     private static final double minDouble =
             stringToDouble("2.2250738585072014b-308");
