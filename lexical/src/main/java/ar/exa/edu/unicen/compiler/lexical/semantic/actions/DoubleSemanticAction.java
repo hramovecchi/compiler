@@ -6,6 +6,7 @@ import java.util.List;
 
 import ar.exa.edu.unicen.compiler.lexical.analyzer.Token;
 import ar.exa.edu.unicen.compiler.lexical.analyzer.Tuple;
+import ar.exa.edu.unicen.compiler.lexical.utils.SymbolTable;
 import ar.exa.edu.unicen.compiler.lexical.utils.MessageUtils.Phase;
 
 /**
@@ -20,6 +21,8 @@ public class DoubleSemanticAction implements SemanticAction {
 
     private static final double maxDouble =
             stringToDouble("1.7976931348623157b308");
+
+    private final SymbolTable symbolTable = SymbolTable.getInstance();
 
     /**
      * Transforms a string to double,
@@ -56,6 +59,7 @@ public class DoubleSemanticAction implements SemanticAction {
 
         if (minDouble < value && value < maxDouble) {
             tuples.add(new Tuple(lexeme, token, line));
+            symbolTable.add(lexeme, token, line);
             return;
         }
 

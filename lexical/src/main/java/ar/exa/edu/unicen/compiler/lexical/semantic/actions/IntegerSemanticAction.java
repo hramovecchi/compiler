@@ -6,6 +6,7 @@ import java.util.List;
 
 import ar.exa.edu.unicen.compiler.lexical.analyzer.Token;
 import ar.exa.edu.unicen.compiler.lexical.analyzer.Tuple;
+import ar.exa.edu.unicen.compiler.lexical.utils.SymbolTable;
 import ar.exa.edu.unicen.compiler.lexical.utils.MessageUtils.Phase;
 
 /**
@@ -19,6 +20,8 @@ public class IntegerSemanticAction implements SemanticAction {
 
     private static final int maxInteger = 32767;
 
+    private final SymbolTable symbolTable = SymbolTable.getInstance();
+
     @Override
     public void doAction(final String lexeme, final List<Tuple> tuples,
             final Token token, final int line) {
@@ -27,6 +30,7 @@ public class IntegerSemanticAction implements SemanticAction {
 
         if (minInteger < value && value < maxInteger) {
             tuples.add(new Tuple(lexeme, token, line));
+            symbolTable.add(lexeme, token, line);
             return;
         }
 

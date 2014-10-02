@@ -14,7 +14,8 @@ public class MessageUtils {
 
     public enum Phase {
         LEXICAL("Léxico"),
-        SYNTACTIC("Sintáctico");
+        SYNTACTIC("Sintáctico"),
+        SYMBOL_TABLE("Table Símbolos");
 
         private final String name;
 
@@ -23,7 +24,7 @@ public class MessageUtils {
         }
 
         public String getName() {
-            return fixedLengthString(name, -10);
+            return fixedLengthString(name, -14);
         }
 
     }

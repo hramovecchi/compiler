@@ -6,6 +6,7 @@ import java.util.List;
 
 import ar.exa.edu.unicen.compiler.lexical.analyzer.Token;
 import ar.exa.edu.unicen.compiler.lexical.analyzer.Tuple;
+import ar.exa.edu.unicen.compiler.lexical.utils.SymbolTable;
 import ar.exa.edu.unicen.compiler.lexical.utils.MessageUtils.Phase;
 
 /**
@@ -14,6 +15,8 @@ import ar.exa.edu.unicen.compiler.lexical.utils.MessageUtils.Phase;
  * @author pmvillafane
  */
 public class IdSemanticAction implements SemanticAction {
+
+    private final SymbolTable symbolTable = SymbolTable.getInstance();
 
     @Override
     public void doAction(final String lexeme, final List<Tuple> tuples,
@@ -28,10 +31,12 @@ public class IdSemanticAction implements SemanticAction {
             warn(Phase.LEXICAL, lexeme, token, line, warn);
 
             tuples.add(new Tuple(truncated, token, line));
+            symbolTable.add(truncated, token, line);
             return;
         }
 
         tuples.add(new Tuple(lexeme, token, line));
+        symbolTable.add(lexeme, token, line);
     }
 
 }
