@@ -4,7 +4,7 @@ entero variable_muy_larga := 20;
 imprimir 'Empieza programa
  	 + de prueba';
 
-peso[5..10] vector de doble;
+peso[15..100] vector de doble;
 
 entero contador := 5;
 para (contador <= 10) {
