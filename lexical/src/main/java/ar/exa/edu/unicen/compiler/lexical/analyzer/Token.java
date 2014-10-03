@@ -56,7 +56,7 @@ public enum Token {
     RBRACE("\\}", "Sentencia de Bloque", 705, Category.OPERATOR),
     COMMA("\\,", "Separador", 706, Category.OPERATOR),
     SEMICOLON("\\;", "Fin de Sentencia", 707, Category.OPERATOR),
-    RANGE("[0-9]*..", "Operador de Rango de Vectores", 708, Category.OPERATOR);
+    RANGE("-?[0-9]*[\\.]{2}-?[0-9]*", "Operador de Rango de Vectores", 708, Category.OPERATOR);
 
     private final String type;
 

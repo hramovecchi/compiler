@@ -1,6 +1,7 @@
 package ar.exa.edu.unicen.compiler.lexical.semantic.actions;
 
 import static ar.exa.edu.unicen.compiler.lexical.utils.MessageUtils.debug;
+import static ar.exa.edu.unicen.compiler.lexical.utils.MessageUtils.error;
 
 import java.util.List;
 
@@ -18,22 +19,49 @@ public class RangeSemanticAction implements SemanticAction {
 
     private final SymbolTable symbolTable = SymbolTable.getInstance();
 
+    /**
+     * Checks if the integer is positive.
+     *
+     * @param number
+     *            string representation of the integer to evaluate.
+     * @param tuples
+     *            list of tuples.
+     * @param token
+     *            the token being evaluated.
+     * @param line
+     *            line number.
+     */
+    private void checkInteger(final String number, final List<Tuple> tuples,
+            final Token token, final int line) {
+
+        final String debug = String.format("Entero [%s] detectado", number);
+        debug(Phase.LEXICAL, number, token, line, debug);
+
+        int value = Integer.valueOf(number);
+        if (value < 0) {
+            final String err = String.format(
+                    "El límite debe ser entero positivo [%s]", number);
+            error(Phase.LEXICAL, number, Token.CONST_INTEGER, line, err);
+        }
+
+        tuples.add(new Tuple(number, Token.CONST_INTEGER, line));
+        symbolTable.add(number, Token.CONST_INTEGER, line);
+    }
+
     @Override
     public void doAction(final String lexeme, final List<Tuple> tuples,
             final Token token, final int line) {
 
         String[] number = lexeme.split("\\..");
-        if (number.length == 1) {
-
-            final String debug = String.format("Entero [%s] detectado", number[0]);
-            debug(Phase.LEXICAL, lexeme, token, line, debug);
-
-            tuples.add(new Tuple(number[0], Token.CONST_INTEGER, line));
-            symbolTable.add(number[0], Token.CONST_INTEGER, line);
+        if (number.length >= 1) {
+            checkInteger(number[0], tuples, token, line);
         }
 
         tuples.add(new Tuple("..", token, line));
-        symbolTable.add("..", token, line);
+
+        if (number.length == 2) {
+            checkInteger(number[1], tuples, token, line);
+        }
     }
 
 }

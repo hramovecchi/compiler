@@ -13,12 +13,30 @@ import ar.exa.edu.unicen.compiler.lexical.analyzer.Token;
 import ar.exa.edu.unicen.compiler.lexical.analyzer.Tuple;
 import ar.exa.edu.unicen.compiler.lexical.utils.MessageUtils.Phase;
 
+/**
+ * Base parser class in charge of defines the non-implemented methods generated
+ * by YACC.
+ * 
+ * @author pmvillafane
+ *
+ */
 public abstract class BaseParser {
 
     private final Iterator<Tuple> tuplesIt;
 
     private Tuple currentTuple;
 
+    /**
+     * Default handler.
+     *
+     * @param lexical
+     *            reference to the lexical analyzer.
+     * @param sourceCode
+     *            source code to evaluate.
+     * @throws IOException
+     *             throws an exception in case of error reading the source code
+     *             file.
+     */
     public BaseParser(final Lexical lexical, final InputStream sourceCode)
             throws IOException {
         final List<Tuple> tuples = lexical.run(sourceCode);
@@ -36,10 +54,22 @@ public abstract class BaseParser {
         return -1;
     }
 
+    /**
+     * Reports a syntax message with INFO priority level.
+     *
+     * @param info
+     *            the message to report.
+     */
     public void yyinfo(final String info) {
         info(Phase.SYNTACTIC, currentTuple.getLine(), info);
     }
 
+    /**
+     * Reports a syntax error with ERROR priority level.
+     * 
+     * @param err
+     *            the error to report.
+     */
     public void yyerror(final String err) {
         error(Phase.SYNTACTIC, currentTuple.getLine(), err);
     }

@@ -1,6 +1,6 @@
 nodes {
     00: ar.exa.edu.unicen.compiler.lexical.transition.states.NodeTerminal;
-    01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12, 13, 14, 15, 16, 17: ar.exa.edu.unicen.compiler.lexical.transition.states.NodeNonTerminal;
+    01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12, 13, 14, 15, 16, 17, 18: ar.exa.edu.unicen.compiler.lexical.transition.states.NodeNonTerminal;
 }
 
 edges {
@@ -8,13 +8,13 @@ edges {
     00, 01: @alphabet;
     00, 02: @number;
     00, 03: -;
-    00, 04: .;
     00, 08: +, /, (, ), {, }, [, ], @comma, @semicolon;
     00, 09: >, <, :;
     00, 10: =;
     00, 11: ^;
     00, 12: *;
     00, 14: ';
+    00, 04: .;
 
     01, 00: @anything;
     01, 01: @alphanumeric, _, &, $;
@@ -65,7 +65,9 @@ edges {
 
     16, 00: @anything;
 
-    17, 00: @anything;
+    17, 18: @number;
+
+    18, 00: @anything;
 }
 
 initial {

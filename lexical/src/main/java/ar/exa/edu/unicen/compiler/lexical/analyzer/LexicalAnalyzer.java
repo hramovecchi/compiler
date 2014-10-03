@@ -50,7 +50,7 @@ public class LexicalAnalyzer {
         nodeCategories.put("12", Category.OPERATOR);
         nodeCategories.put("13", Category.COMMENT);
         nodeCategories.put("16", Category.TEXT);
-        nodeCategories.put("17", Category.OPERATOR);
+        nodeCategories.put("18", Category.OPERATOR);
 
         // Defines the semantic actions to perform in case of token detection.
         semanticActions.put(Token.ID, new IdSemanticAction());

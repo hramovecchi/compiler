@@ -41,7 +41,7 @@ public class Lexical {
     private final LexicalAnalyzer lexicalAnalyzer;
 
     /**
-     * Default Lexical.
+     * Default constructor.
      *
      * @param grammarFile
      *            the grammar file.
@@ -105,6 +105,17 @@ public class Lexical {
         return lexicalAnalyzer.getTuples();
     }
 
+    /**
+     * Runs batch process to analyze lexically the given source code.
+     * 
+     * @param args
+     *            to specify the source code file to analyzer write
+     *            --sourceCode=filename from console. For instance, something
+     *            like <code>java -jar program.jar --sourceCode=filename</code>
+     * @throws IOException
+     *             throws an exception in case of error reading the source code
+     *             file.
+     */
     public static void main(String[] args) throws IOException {
 
         final Map<String, String> programArgs = buildProgramArguments(args);

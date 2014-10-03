@@ -14,6 +14,11 @@ import org.slf4j.LoggerFactory;
 import ar.exa.edu.unicen.compiler.lexical.Lexical;
 import ar.exa.edu.unicen.compiler.syntactic.parser.yacc.Parser;
 
+/**
+ * Main class used to perform the lexical analyzer.
+ *
+ * @author pmvillafane
+ */
 public class Syntactic {
 
     private static final Logger LOGGER = LoggerFactory
@@ -23,15 +28,41 @@ public class Syntactic {
 
     private final Parser parser;
 
+    /**
+     * Default constructor.
+     *
+     * @param lexical
+     *            an instance of the lexical analyzer.
+     * @param sourceCode
+     *            the source code to evaluate.
+     * @throws IOException
+     *             throws an exception in case of error reading the source code
+     *             file.
+     */
     public Syntactic(final Lexical lexical, final InputStream sourceCode)
             throws IOException {
         parser = new Parser(lexical, sourceCode);
     }
 
+    /**
+     * Invokes the YACC parser.
+     */
     public void run() {
         parser.run();
     }
 
+    /**
+     * Runs batch process to analyze lexical and syntactically the given source
+     * code.
+     * 
+     * @param args
+     *            to specify the source code file to analyzer write
+     *            --sourceCode=filename from console. For instance, something
+     *            like <code>java -jar program.jar --sourceCode=filename</code>
+     * @throws IOException
+     *             throws an exception in case of error reading the source code
+     *             file.
+     */
     public static void main(String[] args) throws IOException {
         final Map<String, String> programArgs = buildProgramArguments(args);
         final InputStream sourceCode =
