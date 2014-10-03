@@ -19,5 +19,5 @@ para (contador <= 10) {
 }
 
 ** Fin del test
-doble varDoble = 9.3;
+doble varDoble := 9.3;
 

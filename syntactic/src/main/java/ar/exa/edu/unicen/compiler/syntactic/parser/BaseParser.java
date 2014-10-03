@@ -37,13 +37,11 @@ public abstract class BaseParser {
     }
 
     public void yyinfo(final String info) {
-        info(Phase.SYNTACTIC, currentTuple.getLexeme(),
-                currentTuple.getToken(), currentTuple.getLine() - 1, info);
+        info(Phase.SYNTACTIC, currentTuple.getLine(), info);
     }
 
     public void yyerror(final String err) {
-        error(Phase.SYNTACTIC, currentTuple.getLexeme(), currentTuple
-                .getToken(), currentTuple.getLine() - 1, err);
+        error(Phase.SYNTACTIC, currentTuple.getLine(), err);
     }
 
 }

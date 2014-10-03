@@ -63,6 +63,11 @@ public class MessageUtils {
                         .getId(), token.getDescription(), lexeme);
     }
 
+    public static void info(final Phase phase, final int line, final String msg) {
+        LOGGER.info("{} - Línea {}: {}", phase.getName(),
+                fixedLengthString(String.valueOf(line), MAX_LINE_FIXED), msg);
+    }
+
     public static void info(final Phase phase, final String lexeme,
             final Token token, final int line, final String msg) {
         LOGGER.info("{} - Línea {}: Token {} - {} [{}] - {}", phase.getName(),
