@@ -44,8 +44,8 @@ public class RangeSemanticAction implements SemanticAction {
             error(Phase.LEXICAL, number, Token.CONST_INTEGER, line, err);
         }
 
-        tuples.add(new Tuple(number, Token.CONST_INTEGER, line));
-        symbolTable.add(number, Token.CONST_INTEGER, line);
+        // Checks semantically if the integer is OK.
+        new IntegerSemanticAction().doAction(number, tuples, Token.CONST_INTEGER, line);
     }
 
     @Override
