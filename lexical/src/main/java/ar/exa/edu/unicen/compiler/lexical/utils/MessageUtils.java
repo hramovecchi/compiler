@@ -15,7 +15,7 @@ public class MessageUtils {
     public enum Phase {
         LEXICAL("Léxico"),
         SYNTACTIC("Sintáctico"),
-        SYMBOL_TABLE("Table Símbolos");
+        SYMBOL_TABLE("Tabla Símbolos");
 
         private final String name;
 

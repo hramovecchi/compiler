@@ -1,11 +1,17 @@
 package com.aveise.automaton.utils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Utilities useful for parameters verification.
  * 
  * @author pmvillafane
  */
 public class ParamUtils {
+
+    private static final String REGEX_TO_SPLIT_EQUAL =
+            "[=]+(?=([^\"]*\"[^\"]*\")*[^\"]*$)";
 
     /**
      * Checks if the given string is not blank. If it is <b>null</b>, empty or
@@ -36,6 +42,33 @@ public class ParamUtils {
         if (evaluate == null) {
             throw new RuntimeException(message);
         }
+    }
+
+    /**
+     * Builds a {@link Map} with the program arguments. For instance, if the
+     * user define the <code>--arg1=value1 --arg2=value2</code> the {@link Map}
+     * will be created in the following way:<br/>
+     * <code>map.put("arg1", "value1");</code><br/>
+     * <code>map.put("arg2", "value2");</code><br/>
+     * 
+     * @param args
+     *            list of program arguments.
+     * @return a {@link Map} containing the program arguments.
+     */
+    public static Map<String, String> buildProgramArguments(final String[] args) {
+        final Map<String, String> programArguments =
+                new HashMap<String, String>();
+
+        for (String arg : args) {
+            // All the program arguments must start with --
+            if (arg.startsWith("--")) {
+                final String[] keyValue = arg.split(REGEX_TO_SPLIT_EQUAL);
+                programArguments.put(keyValue[0].substring(2), keyValue[1]
+                        .replaceAll("^\"|\"$", ""));
+            }
+        }
+
+        return programArguments;
     }
 
 }

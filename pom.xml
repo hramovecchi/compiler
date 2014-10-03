@@ -53,6 +53,13 @@
 
     <dependencyManagement>
         <dependencies>
+        <!-- Project dependencies -->
+            <dependency>
+                <groupId>ar.exa.edu.unicen.compiler.lexical</groupId>
+                <artifactId>compiler-lexical</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <!-- Third party dependencies -->
             <dependency>
                 <groupId>org.slf4j</groupId>
@@ -71,7 +78,6 @@
                 <version>${ch.qos.logback-version}</version>
             </dependency>
 
-            <!-- Testing -->
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>

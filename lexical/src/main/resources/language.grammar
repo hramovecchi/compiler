@@ -24,6 +24,7 @@ edges {
     02, 04: .;
     02, 06: B, b;
 
+    03, 00: @separator;
     03, 02: @number;
 
     04, 05: @number;

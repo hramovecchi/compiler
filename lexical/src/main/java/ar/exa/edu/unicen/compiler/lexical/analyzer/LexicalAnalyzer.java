@@ -30,7 +30,7 @@ public class LexicalAnalyzer {
 
     private StringBuilder text;
 
-    private int line = 1;
+    private int line = 0;
 
     /**
      * Default constructor.
@@ -40,6 +40,7 @@ public class LexicalAnalyzer {
         // Associates terminal nodes to the corresponding category.
         nodeCategories.put("01", Category.TEXT);
         nodeCategories.put("02", Category.CONSTANT);
+        nodeCategories.put("03", Category.OPERATOR);
         nodeCategories.put("04", Category.CONSTANT);
         nodeCategories.put("05", Category.CONSTANT);
         nodeCategories.put("07", Category.CONSTANT);

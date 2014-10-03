@@ -1,13 +1,13 @@
 package ar.exa.edu.unicen.compiler.lexical;
 
 import static ar.exa.edu.unicen.compiler.lexical.utils.MessageUtils.error;
+import static com.aveise.automaton.utils.ParamUtils.buildProgramArguments;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,9 +33,6 @@ public class Lexical {
     private static final Logger LOGGER = LoggerFactory.getLogger(Lexical.class);
 
     private static final String SOURCE_CODE = "sourceCode";
-
-    private static final String REGEX_TO_SPLIT_EQUAL =
-            "[=]+(?=([^\"]*\"[^\"]*\")*[^\"]*$)";
 
     public static final String GRAMMAR_FILE = "/language.grammar";
 
@@ -89,6 +86,9 @@ public class Lexical {
             reader.close();
         } catch (CompilerException e) {
             LOGGER.error(e.getMessage());
+
+            // Terminate the program in case of error.
+            System.exit(0);
         } catch (IllegalStateException e) {
 
             try {
@@ -97,37 +97,12 @@ public class Lexical {
             } catch (CompilerException ex) {
                 LOGGER.error(ex.getMessage());
             }
+            // Terminate the program in case of error.
+            System.exit(0);
 
         }
 
         return lexicalAnalyzer.getTuples();
-    }
-
-    /**
-     * Builds a {@link Map} with the program arguments. For instance, if the
-     * user define the <code>--arg1=value1 --arg2=value2</code> the {@link Map}
-     * will be created in the following way:<br/>
-     * <code>map.put("arg1", "value1");</code><br/>
-     * <code>map.put("arg2", "value2");</code><br/>
-     * 
-     * @param args
-     *            list of program arguments.
-     * @return a {@link Map} containing the program arguments.
-     */
-    public static Map<String, String> buildProgramArguments(final String[] args) {
-        final Map<String, String> programArguments =
-                new HashMap<String, String>();
-
-        for (String arg : args) {
-            // All the program arguments must start with --
-            if (arg.startsWith("--")) {
-                final String[] keyValue = arg.split(REGEX_TO_SPLIT_EQUAL);
-                programArguments.put(keyValue[0].substring(2), keyValue[1]
-                        .replaceAll("^\"|\"$", ""));
-            }
-        }
-
-        return programArguments;
     }
 
     public static void main(String[] args) throws IOException {
