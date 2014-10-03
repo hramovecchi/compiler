@@ -68,6 +68,7 @@ edges {
     17, 18: @number;
 
     18, 00: @anything;
+    18, 18: @number;
 }
 
 initial {
