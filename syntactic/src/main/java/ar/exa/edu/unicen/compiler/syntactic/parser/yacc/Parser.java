@@ -43,6 +43,7 @@ public class Parser extends BaseParser {
     int stateptr;
     int stateptrmax;                     // highest index of stackptr
     int statemax;                        // state when highest index reached
+
     // ###############################################################
     // methods: state stack push,pop,drop,peek
     // ###############################################################
@@ -565,9 +566,9 @@ public class Parser extends BaseParser {
                     yystate = yytable[yyn];// we are in a new state
                     state_push(yystate);   // save it
                     val_push(yylval);      // push our lval as the input for next
-                                      // rule
+                    // rule
                     yychar = -1;           // since we have 'eaten' a token, say we need
-                                 // another
+                    // another
                     if (yyerrflag > 0)     // have we recovered an error?
                     --yyerrflag;        // give ourselves credit
                     doaction = false;        // but don't process yet
