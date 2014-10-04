@@ -7,7 +7,6 @@ import java.util.List;
 
 import ar.exa.edu.unicen.compiler.lexical.analyzer.Token;
 import ar.exa.edu.unicen.compiler.lexical.analyzer.Tuple;
-import ar.exa.edu.unicen.compiler.lexical.utils.SymbolTable;
 import ar.exa.edu.unicen.compiler.lexical.utils.MessageUtils.Phase;
 
 /**
@@ -16,8 +15,6 @@ import ar.exa.edu.unicen.compiler.lexical.utils.MessageUtils.Phase;
  * @author pmvillafane
  */
 public class RangeSemanticAction implements SemanticAction {
-
-    private final SymbolTable symbolTable = SymbolTable.getInstance();
 
     /**
      * Checks if the integer is positive.
