@@ -50,9 +50,9 @@ public class Lexical {
      */
     public Lexical(final InputStream grammarFile)
             throws IOException {
-        lexicalAnalyzer = new LexicalAnalyzer();
-        automatonFileReader =
-                new AutomatonFileReader(grammarFile, lexicalAnalyzer);
+        this.lexicalAnalyzer = new LexicalAnalyzer();
+        this.automatonFileReader =
+                new AutomatonFileReader(grammarFile, this.lexicalAnalyzer);
     }
 
     /**
@@ -66,14 +66,14 @@ public class Lexical {
      */
     public List<Tuple> run(final InputStream sourceCode) throws IOException {
 
-        lexicalAnalyzer.init();
+        this.lexicalAnalyzer.init();
 
         final BufferedReader reader =
                 new BufferedReader(new InputStreamReader(sourceCode));
 
         try {
             int r;
-            Node<Character> node = automatonFileReader.initialNode();
+            Node<Character> node = this.automatonFileReader.initialNode();
             while ((r = reader.read()) != -1) {
                 final char c = (char) r;
 
@@ -83,18 +83,23 @@ public class Lexical {
                 // Moving to the next token.
                 node = node.next(c);
             }
+
+            // Moving to the next token to consider a particular case when EOF
+            // is the last character wrote.
+            node = node.next(' ');
+
             reader.close();
-        } catch (CompilerException e) {
+        } catch (final CompilerException e) {
             LOGGER.error(e.getMessage());
 
             // Terminate the program in case of error.
             System.exit(0);
-        } catch (IllegalStateException e) {
+        } catch (final IllegalStateException e) {
 
             try {
                 error(Phase.LEXICAL, this.lexicalAnalyzer.getLine(), String
                         .format("Caracter no válido %s", e.getToken()));
-            } catch (CompilerException ex) {
+            } catch (final CompilerException ex) {
                 LOGGER.error(ex.getMessage());
             }
             // Terminate the program in case of error.
@@ -102,12 +107,12 @@ public class Lexical {
 
         }
 
-        return lexicalAnalyzer.getTuples();
+        return this.lexicalAnalyzer.getTuples();
     }
 
     /**
      * Runs batch process to analyze lexically the given source code.
-     * 
+     *
      * @param args
      *            to specify the source code file to analyzer write
      *            --sourceCode=filename from console. For instance, something
@@ -116,7 +121,7 @@ public class Lexical {
      *             throws an exception in case of error reading the source code
      *             file.
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(final String[] args) throws IOException {
 
         final Map<String, String> programArgs = buildProgramArguments(args);
         final InputStream sourceCode =
