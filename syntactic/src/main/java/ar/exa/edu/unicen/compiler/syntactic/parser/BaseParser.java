@@ -1,6 +1,6 @@
 package ar.exa.edu.unicen.compiler.syntactic.parser;
 
-import static ar.exa.edu.unicen.compiler.lexical.utils.MessageUtils.error;
+import static ar.exa.edu.unicen.compiler.lexical.utils.MessageUtils.errorWithoutException;
 import static ar.exa.edu.unicen.compiler.lexical.utils.MessageUtils.info;
 
 import java.io.IOException;
@@ -16,7 +16,7 @@ import ar.exa.edu.unicen.compiler.lexical.utils.MessageUtils.Phase;
 /**
  * Base parser class in charge of defines the non-implemented methods generated
  * by YACC.
- * 
+ *
  * @author pmvillafane
  *
  */
@@ -40,14 +40,14 @@ public abstract class BaseParser {
     public BaseParser(final Lexical lexical, final InputStream sourceCode)
             throws IOException {
         final List<Tuple> tuples = lexical.run(sourceCode);
-        tuplesIt = tuples.listIterator();
+        this.tuplesIt = tuples.listIterator();
     }
 
     public int yylex() {
-        if (tuplesIt.hasNext()) {
-            currentTuple = tuplesIt.next();
+        if (this.tuplesIt.hasNext()) {
+            this.currentTuple = this.tuplesIt.next();
 
-            final Token token = currentTuple.getToken();
+            final Token token = this.currentTuple.getToken();
             final int tokenId = token.getId();
             return tokenId;
         }
@@ -61,17 +61,17 @@ public abstract class BaseParser {
      *            the message to report.
      */
     public void yyinfo(final String info) {
-        info(Phase.SYNTACTIC, currentTuple.getLine(), info);
+        info(Phase.SYNTACTIC, this.currentTuple.getLine(), info);
     }
 
     /**
      * Reports a syntax error with ERROR priority level.
-     * 
+     *
      * @param err
      *            the error to report.
      */
     public void yyerror(final String err) {
-        error(Phase.SYNTACTIC, currentTuple.getLine(), err);
+        errorWithoutException(Phase.SYNTACTIC, this.currentTuple.getLine(), err);
     }
 
 }
