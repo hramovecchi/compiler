@@ -47,21 +47,21 @@ public class MessageUtils {
             final Token token, final int line) {
         LOGGER.debug("{} - Línea {}: Token {} - {} [{}]", phase.getName(),
                 fixedLengthString(String.valueOf(line), MAX_LINE_FIXED), token
-                .getId(), token.getDescription(), lexeme);
+                        .getId(), token.getDescription(), lexeme);
     }
 
     public static void debug(final Phase phase, final String lexeme,
             final Token token, final int line, final String msg) {
         LOGGER.debug("{} - Línea {}: Token {} - {} [{}] - {}", phase.getName(),
                 fixedLengthString(String.valueOf(line), MAX_LINE_FIXED), token
-                .getId(), token.getDescription(), lexeme, msg);
+                        .getId(), token.getDescription(), lexeme, msg);
     }
 
     public static void info(final Phase phase, final String lexeme,
             final Token token, final int line) {
         LOGGER.info("{} - Línea {}: Token {} - {} [{}]", phase.getName(),
                 fixedLengthString(String.valueOf(line), MAX_LINE_FIXED), token
-                .getId(), token.getDescription(), lexeme);
+                        .getId(), token.getDescription(), lexeme);
     }
 
     public static void info(final Phase phase, final int line, final String msg) {
@@ -73,21 +73,21 @@ public class MessageUtils {
             final Token token, final int line, final String msg) {
         LOGGER.info("{} - Línea {}: Token {} - {} [{}] - {}", phase.getName(),
                 fixedLengthString(String.valueOf(line), MAX_LINE_FIXED), token
-                .getId(), token.getDescription(), lexeme, msg);
+                        .getId(), token.getDescription(), lexeme, msg);
     }
 
     public static void warn(final Phase phase, final String lexeme,
             final Token token, final int line) {
         LOGGER.warn("{} - Línea {}: Token {} - {} [{}]", phase.getName(),
                 fixedLengthString(String.valueOf(line), MAX_LINE_FIXED), token
-                .getId(), token.getDescription(), lexeme);
+                        .getId(), token.getDescription(), lexeme);
     }
 
     public static void warn(final Phase phase, final String lexeme,
             final Token token, final int line, final String msg) {
         LOGGER.warn("{} - Línea {}: Token {} - {} [{}] - {}", phase.getName(),
                 fixedLengthString(String.valueOf(line), MAX_LINE_FIXED), token
-                .getId(), token.getDescription(), lexeme, msg);
+                        .getId(), token.getDescription(), lexeme, msg);
     }
 
     public static void error(final Phase phase, final String lexeme,
@@ -103,8 +103,8 @@ public class MessageUtils {
 
     public static void errorWithoutException(final Phase phase, final int line,
             final String err) {
-        LOGGER.error("{} - Línea {}: {}", phase, fixedLengthString(String
-                .valueOf(line), MAX_LINE_FIXED), err);
+        LOGGER.error("{} - Línea {}: {}", phase.getName(), fixedLengthString(
+                String.valueOf(line), MAX_LINE_FIXED), err);
     }
 
 }
