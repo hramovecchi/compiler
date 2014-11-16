@@ -72,5 +72,30 @@ public class SymbolTable {
         symbolData.setType(type);
         info(Phase.SYMBOL_TABLE, lexeme, symbolData.getToken(), type, line);
     }
+    
+	public boolean isVariableInteger(final String lexeme) {
+		final Element element = this.table.get(lexeme); 
+		return Token.ID.equals(element.getToken()) && Token.INTEGER.name().equals(element.getType());
+	}
+
+	public boolean isVariableDouble(final String lexeme) {
+		final Element element = this.table.get(lexeme); 
+		return Token.ID.equals(element.getToken()) && Token.DOUBLE.name().equals(element.getType());
+	}
+
+	public boolean isConstInteger(final String lexeme) {
+		final Element element = this.table.get(lexeme); 
+		return Token.CONST_INTEGER.equals(element.getToken());
+	}
+
+	public boolean isConstDouble(final String lexeme) {
+		final Element element = this.table.get(lexeme); 
+		return Token.CONST_DOUBLE.equals(element.getToken());
+	}
+
+	public boolean isConstString(final String lexeme) {
+		final Element element = this.table.get(lexeme); 
+		return Token.STRING.equals(element.getToken());
+	}
 
 }

@@ -19,6 +19,30 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+
+	<!-- Project dependencies -->
+	<dependency>
+		<groupId>ar.exa.edu.unicen.compiler.syntactic</groupId>
+		<artifactId>compiler-syntactic</artifactId>
+	</dependency>
+
+	<!-- Third party dependencies -->
+	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>slf4j-api</artifactId>
+	</dependency>
+
+	<dependency>
+		<groupId>ch.qos.logback</groupId>
+		<artifactId>logback-classic</artifactId>
+	</dependency>
+
+	<dependency>
+		<groupId>junit</groupId>
+		<artifactId>junit</artifactId>
+	</dependency>
+    
+    
   </dependencies>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

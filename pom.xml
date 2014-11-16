@@ -78,6 +78,12 @@
                 <artifactId>compiler-lexical</artifactId>
                 <version>${project.version}</version>
             </dependency>
+			
+			 <dependency>
+                <groupId>ar.exa.edu.unicen.compiler.syntactic</groupId>
+                <artifactId>compiler-syntactic</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <!-- Third party dependencies -->
             <dependency>
