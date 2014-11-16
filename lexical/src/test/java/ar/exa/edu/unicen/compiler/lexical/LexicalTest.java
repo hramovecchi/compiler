@@ -12,7 +12,7 @@ import ar.exa.edu.unicen.compiler.lexical.analyzer.Token;
 import ar.exa.edu.unicen.compiler.lexical.analyzer.Tuple;
 
 /**
- * Unit test for simple App.
+ * Unit test for Lexical analyzer.
  */
 public class LexicalTest {
 

@@ -10,14 +10,14 @@ import ar.exa.edu.unicen.compiler.lexical.utils.MessageUtils.Phase;
 
 /**
  * Models the Symbol Table to group lexemes and tokens.
- * 
+ *
  * @author pmvillafane
  */
 public class SymbolTable {
 
     private static SymbolTable symbolTable = null;
 
-    private Map<String, Token> table = new HashMap<String, Token>();
+    private final Map<String, Element> table = new HashMap<String, Element>();
 
     /**
      * Default constructor.
@@ -28,7 +28,7 @@ public class SymbolTable {
 
     /**
      * Retrieves an instance of the Symbol Table.
-     * 
+     *
      * @return the Symbol Table.
      */
     public static final SymbolTable getInstance() {
@@ -51,8 +51,26 @@ public class SymbolTable {
      *            is used to print the content.
      */
     public void add(final String lexeme, final Token token, final int line) {
-        table.put(lexeme, token);
+        this.table.put(lexeme, new Element(token));
         info(Phase.SYMBOL_TABLE, lexeme, token, line);
+    }
+
+    /**
+     * Assigns the type.
+     *
+     * @param lexeme
+     *            the lexeme to add.
+     * @param type
+     *            the type corresponding to the lexeme.
+     * @param line
+     *            line number where lexeme was found. <b>Note: </b> this value
+     *            is used to print the content.
+     */
+    public void assignType(final String lexeme, final String type,
+            final int line) {
+        final Element symbolData = this.table.get(lexeme);
+        symbolData.setType(type);
+        info(Phase.SYMBOL_TABLE, lexeme, symbolData.getToken(), type, line);
     }
 
 }

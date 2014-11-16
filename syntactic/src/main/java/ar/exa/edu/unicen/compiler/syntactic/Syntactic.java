@@ -6,12 +6,14 @@ import static com.aveise.automaton.utils.ParamUtils.buildProgramArguments;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ar.exa.edu.unicen.compiler.lexical.Lexical;
+import ar.exa.edu.unicen.compiler.lexical.utils.Triplet;
 import ar.exa.edu.unicen.compiler.syntactic.parser.yacc.Parser;
 
 /**
@@ -41,20 +43,22 @@ public class Syntactic {
      */
     public Syntactic(final Lexical lexical, final InputStream sourceCode)
             throws IOException {
-        parser = new Parser(lexical, sourceCode);
+        this.parser = new Parser(lexical, sourceCode);
     }
 
     /**
      * Invokes the YACC parser.
      */
-    public void run() {
-        parser.run();
+    public List<Triplet> run() {
+
+        this.parser.run();
+        return this.parser.getTriplets();
     }
 
     /**
      * Runs batch process to analyze lexical and syntactically the given source
      * code.
-     * 
+     *
      * @param args
      *            to specify the source code file to analyzer write
      *            --sourceCode=filename from console. For instance, something
@@ -63,7 +67,7 @@ public class Syntactic {
      *             throws an exception in case of error reading the source code
      *             file.
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(final String[] args) throws IOException {
         final Map<String, String> programArgs = buildProgramArguments(args);
         final InputStream sourceCode =
                 new FileInputStream(programArgs.get(SOURCE_CODE));
@@ -74,7 +78,7 @@ public class Syntactic {
 
         try {
             syntactic.run();
-        } catch (Exception e) {
+        } catch (final Exception e) {
             LOGGER.error(e.getMessage());
         }
     }

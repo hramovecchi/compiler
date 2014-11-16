@@ -33,8 +33,10 @@ public class Parser extends BaseParser {
     // ###############################################################
     // method: debug
     // ###############################################################
-    void debug(String msg) {
-        if (yydebug) System.out.println(msg);
+    void debug(final String msg) {
+        if (this.yydebug) {
+            System.out.println(msg);
+        }
     }
 
     // ########## STATE STACK ##########
@@ -48,51 +50,52 @@ public class Parser extends BaseParser {
     // methods: state stack push,pop,drop,peek
     // ###############################################################
 
-    final void state_push(int state) {
+    final void state_push(final int state) {
         try {
-            stateptr++;
-            statestk[stateptr] = state;
-        } catch (ArrayIndexOutOfBoundsException e) {
-            int oldsize = statestk.length;
-            int newsize = oldsize * 2;
-            int[] newstack = new int[newsize];
-            System.arraycopy(statestk, 0, newstack, 0, oldsize);
-            statestk = newstack;
-            statestk[stateptr] = state;
+            this.stateptr++;
+            this.statestk[this.stateptr] = state;
+        } catch (final ArrayIndexOutOfBoundsException e) {
+            final int oldsize = this.statestk.length;
+            final int newsize = oldsize * 2;
+            final int[] newstack = new int[newsize];
+            System.arraycopy(this.statestk, 0, newstack, 0, oldsize);
+            this.statestk = newstack;
+            this.statestk[this.stateptr] = state;
         }
     }
 
     final int state_pop() {
-        return statestk[stateptr--];
+        return this.statestk[this.stateptr--];
     }
 
-    final void state_drop(int cnt) {
-        stateptr -= cnt;
+    final void state_drop(final int cnt) {
+        this.stateptr -= cnt;
     }
 
-    final int state_peek(int relative) {
-        return statestk[stateptr - relative];
+    final int state_peek(final int relative) {
+        return this.statestk[this.stateptr - relative];
     }
 
     // ###############################################################
     // method: init_stacks : allocate and prepare stacks
     // ###############################################################
     final boolean init_stacks() {
-        stateptr = -1;
-        val_init();
+        this.stateptr = -1;
+        this.val_init();
         return true;
     }
 
     // ###############################################################
     // method: dump_stacks : show n levels of the stacks
     // ###############################################################
-    void dump_stacks(int count) {
+    void dump_stacks(final int count) {
         int i;
-        System.out.println("=index==state====value=     s:" + stateptr + "  v:"
-                + valptr);
-        for (i = 0; i < count; i++)
-            System.out.println(" " + i + "    " + statestk[i] + "      "
-                    + valstk[i]);
+        System.out.println("=index==state====value=     s:" + this.stateptr
+                + "  v:" + this.valptr);
+        for (i = 0; i < count; i++) {
+            System.out.println(" " + i + "    " + this.statestk[i] + "      "
+                    + this.valstk[i]);
+        }
         System.out.println("======================");
     }
 
@@ -109,38 +112,46 @@ public class Parser extends BaseParser {
     // methods: value stack push,pop,drop,peek.
     // ###############################################################
     void val_init() {
-        valstk = new ParserVal[YYSTACKSIZE];
-        yyval = new ParserVal();
-        yylval = new ParserVal();
-        valptr = -1;
+        this.valstk = new ParserVal[YYSTACKSIZE];
+        this.yyval = new ParserVal();
+        this.yylval = new ParserVal();
+        this.valptr = -1;
     }
 
-    void val_push(ParserVal val) {
-        if (valptr >= YYSTACKSIZE) return;
-        valstk[++valptr] = val;
+    void val_push(final ParserVal val) {
+        if (this.valptr >= YYSTACKSIZE) {
+            return;
+        }
+        this.valstk[++this.valptr] = val;
     }
 
     ParserVal val_pop() {
-        if (valptr < 0) return new ParserVal();
-        return valstk[valptr--];
+        if (this.valptr < 0) {
+            return new ParserVal();
+        }
+        return this.valstk[this.valptr--];
     }
 
-    void val_drop(int cnt) {
+    void val_drop(final int cnt) {
         int ptr;
-        ptr = valptr - cnt;
-        if (ptr < 0) return;
-        valptr = ptr;
+        ptr = this.valptr - cnt;
+        if (ptr < 0) {
+            return;
+        }
+        this.valptr = ptr;
     }
 
-    ParserVal val_peek(int relative) {
+    ParserVal val_peek(final int relative) {
         int ptr;
-        ptr = valptr - relative;
-        if (ptr < 0) return new ParserVal();
-        return valstk[ptr];
+        ptr = this.valptr - relative;
+        if (ptr < 0) {
+            return new ParserVal();
+        }
+        return this.valstk[ptr];
     }
 
-    final ParserVal dup_yyval(ParserVal val) {
-        ParserVal dup = new ParserVal();
+    final ParserVal dup_yyval(final ParserVal val) {
+        final ParserVal dup = new ParserVal();
         dup.ival = val.ival;
         dup.dval = val.dval;
         dup.sval = val.sval;
@@ -511,13 +522,18 @@ public class Parser extends BaseParser {
     // ###############################################################
     // method: yylexdebug : check lexer state
     // ###############################################################
-    void yylexdebug(int state, int ch) {
+    void yylexdebug(final int state, int ch) {
         String s = null;
-        if (ch < 0) ch = 0;
-        if (ch <= YYMAXTOKEN) // check index bounds
-        s = yyname[ch];    // now get it
-        if (s == null) s = "illegal-symbol";
-        debug("state " + state + ", reading " + ch + " (" + s + ")");
+        if (ch < 0) {
+            ch = 0;
+        }
+        if (ch <= YYMAXTOKEN) {
+            s = yyname[ch];    // now get it
+        }
+        if (s == null) {
+            s = "illegal-symbol";
+        }
+        this.debug("state " + state + ", reading " + ch + " (" + s + ")");
     }
 
     // The following are now global, to aid in error reporting
@@ -531,527 +547,602 @@ public class Parser extends BaseParser {
     // ###############################################################
     int yyparse() {
         boolean doaction;
-        init_stacks();
-        yynerrs = 0;
-        yyerrflag = 0;
-        yychar = -1;          // impossible char forces a read
-        yystate = 0;            // initial state
-        state_push(yystate);  // save it
-        val_push(yylval);     // save empty value
+        this.init_stacks();
+        this.yynerrs = 0;
+        this.yyerrflag = 0;
+        this.yychar = -1;          // impossible char forces a read
+        this.yystate = 0;            // initial state
+        this.state_push(this.yystate);  // save it
+        this.val_push(this.yylval);     // save empty value
         while (true) // until parsing is done, either correctly, or w/error
         {
             doaction = true;
-            if (yydebug) debug("loop");
+            if (this.yydebug) {
+                this.debug("loop");
+            }
             // #### NEXT ACTION (from reduction table)
-            for (yyn = yydefred[yystate]; yyn == 0; yyn = yydefred[yystate]) {
-                if (yydebug) debug("yyn:" + yyn + "  state:" + yystate
-                        + "  yychar:" + yychar);
-                if (yychar < 0)      // we want a char?
+            for (this.yyn = yydefred[this.yystate]; this.yyn == 0; this.yyn =
+                    yydefred[this.yystate]) {
+                if (this.yydebug) {
+                    this.debug("yyn:" + this.yyn + "  state:" + this.yystate
+                            + "  yychar:" + this.yychar);
+                }
+                if (this.yychar < 0)      // we want a char?
                 {
-                    yychar = yylex();  // get next token
-                    if (yydebug) debug(" next yychar:" + yychar);
+                    this.yychar = this.yylex();  // get next token
+                    if (this.yydebug) {
+                        this.debug(" next yychar:" + this.yychar);
+                    }
                     // #### ERROR CHECK ####
-                    if (yychar < 0)    // it it didn't work/error
+                    if (this.yychar < 0)    // it it didn't work/error
                     {
-                        yychar = 0;      // change it to default string (no -1!)
-                        if (yydebug) yylexdebug(yystate, yychar);
+                        this.yychar = 0;      // change it to default string (no -1!)
+                        if (this.yydebug) {
+                            this.yylexdebug(this.yystate, this.yychar);
+                        }
                     }
                 }// yychar<0
-                yyn = yysindex[yystate];  // get amount to shift by (shift index)
-                if ((yyn != 0) && (yyn += yychar) >= 0 && yyn <= YYTABLESIZE
-                        && yycheck[yyn] == yychar) {
-                    if (yydebug) debug("state " + yystate
-                            + ", shifting to state " + yytable[yyn]);
+                this.yyn = yysindex[this.yystate];  // get amount to shift by
+                                                   // (shift index)
+                if (this.yyn != 0 && (this.yyn += this.yychar) >= 0
+                        && this.yyn <= YYTABLESIZE
+                        && yycheck[this.yyn] == this.yychar) {
+                    if (this.yydebug) {
+                        this.debug("state " + this.yystate
+                                + ", shifting to state " + yytable[this.yyn]);
+                    }
                     // #### NEXT STATE ####
-                    yystate = yytable[yyn];// we are in a new state
-                    state_push(yystate);   // save it
-                    val_push(yylval);      // push our lval as the input for next
-                    // rule
-                    yychar = -1;           // since we have 'eaten' a token, say we need
-                    // another
-                    if (yyerrflag > 0)     // have we recovered an error?
-                    --yyerrflag;        // give ourselves credit
+                    this.yystate = yytable[this.yyn];// we are in a new state
+                    this.state_push(this.yystate);   // save it
+                    this.val_push(this.yylval);      // push our lval as the input
+                    // for next rule
+                    this.yychar = -1;           // since we have 'eaten' a token, say we
+                    // need another
+                    if (this.yyerrflag > 0) {
+                        --this.yyerrflag;        // give ourselves credit
+                    }
                     doaction = false;        // but don't process yet
                     break;   // quit the yyn=0 loop
                 }
 
-                yyn = yyrindex[yystate];  // reduce
-                if ((yyn != 0) && (yyn += yychar) >= 0 && yyn <= YYTABLESIZE
-                        && yycheck[yyn] == yychar) {   // we reduced!
-                    if (yydebug) debug("reduce");
-                    yyn = yytable[yyn];
+                this.yyn = yyrindex[this.yystate];  // reduce
+                if (this.yyn != 0 && (this.yyn += this.yychar) >= 0
+                        && this.yyn <= YYTABLESIZE
+                        && yycheck[this.yyn] == this.yychar) {   // we reduced!
+                    if (this.yydebug) {
+                        this.debug("reduce");
+                    }
+                    this.yyn = yytable[this.yyn];
                     doaction = true; // get ready to execute
                     break;         // drop down to actions
                 } else // ERROR RECOVERY
                 {
-                    if (yyerrflag == 0) {
-                        yyerror("syntax error");
-                        yynerrs++;
+                    if (this.yyerrflag == 0) {
+                        this.yyerror("syntax error");
+                        this.yynerrs++;
                     }
-                    if (yyerrflag < 3) // low error count?
+                    if (this.yyerrflag < 3) // low error count?
                     {
-                        yyerrflag = 3;
+                        this.yyerrflag = 3;
                         while (true)   // do until break
                         {
-                            if (stateptr < 0)   // check for under & overflow here
+                            if (this.stateptr < 0)   // check for under & overflow
+                                                   // here
                             {
-                                yyerror("stack underflow. aborting...");  // note
-                                                                         // lower
-                                                                         // case
-                                                                         // 's'
+                                this.yyerror("stack underflow. aborting...");  // note
+                                                                              // lower
+                                                                              // case
+                                                                              // 's'
                                 return 1;
                             }
-                            yyn = yysindex[state_peek(0)];
-                            if ((yyn != 0) && (yyn += YYERRCODE) >= 0
-                                    && yyn <= YYTABLESIZE
-                                    && yycheck[yyn] == YYERRCODE) {
-                                if (yydebug) debug("state " + state_peek(0)
-                                        + ", error recovery shifting to state "
-                                        + yytable[yyn] + " ");
-                                yystate = yytable[yyn];
-                                state_push(yystate);
-                                val_push(yylval);
+                            this.yyn = yysindex[this.state_peek(0)];
+                            if (this.yyn != 0 && (this.yyn += YYERRCODE) >= 0
+                                    && this.yyn <= YYTABLESIZE
+                                    && yycheck[this.yyn] == YYERRCODE) {
+                                if (this.yydebug) {
+                                    this.debug("state "
+                                            + this.state_peek(0)
+                                            + ", error recovery shifting to state "
+                                            + yytable[this.yyn] + " ");
+                                }
+                                this.yystate = yytable[this.yyn];
+                                this.state_push(this.yystate);
+                                this.val_push(this.yylval);
                                 doaction = false;
                                 break;
                             } else {
-                                if (yydebug) debug("error recovery discarding state "
-                                        + state_peek(0) + " ");
-                                if (stateptr < 0)   // check for under & overflow
-                                                  // here
+                                if (this.yydebug) {
+                                    this.debug("error recovery discarding state "
+                                            + this.state_peek(0) + " ");
+                                }
+                                if (this.stateptr < 0)   // check for under &
+                                                       // overflow here
                                 {
-                                    yyerror("Stack underflow. aborting...");  // capital
-                                                                             // 'S'
+                                    this.yyerror("Stack underflow. aborting...");  // capital
+                                                                                  // 'S'
                                     return 1;
                                 }
-                                state_pop();
-                                val_pop();
+                                this.state_pop();
+                                this.val_pop();
                             }
                         }
                     } else            // discard this token
                     {
-                        if (yychar == 0) return 1; // yyabort
-                        if (yydebug) {
-                            yys = null;
-                            if (yychar <= YYMAXTOKEN) yys = yyname[yychar];
-                            if (yys == null) yys = "illegal-symbol";
-                            debug("state " + yystate
-                                    + ", error recovery discards token "
-                                    + yychar + " (" + yys + ")");
+                        if (this.yychar == 0) {
+                            return 1; // yyabort
                         }
-                        yychar = -1;  // read another
+                        if (this.yydebug) {
+                            this.yys = null;
+                            if (this.yychar <= YYMAXTOKEN) {
+                                this.yys = yyname[this.yychar];
+                            }
+                            if (this.yys == null) {
+                                this.yys = "illegal-symbol";
+                            }
+                            this.debug("state " + this.yystate
+                                    + ", error recovery discards token "
+                                    + this.yychar + " (" + this.yys + ")");
+                        }
+                        this.yychar = -1;  // read another
                     }
                 }// end error recovery
             }// yyn=0 loop
-            if (!doaction)   // any reason not to proceed?
-            continue;      // skip action
-            yym = yylen[yyn];          // get count of terminals on rhs
-            if (yydebug) debug("state " + yystate + ", reducing " + yym
-                    + " by rule " + yyn + " (" + yyrule[yyn] + ")");
-            if (yym > 0)                 // if count of rhs not 'nil'
-            yyval = val_peek(yym - 1); // get current semantic value
-            yyval = dup_yyval(yyval); // duplicate yyval if ParserVal is used as
-                                      // semantic value
-            switch (yyn) {
+            if (!doaction) {
+                continue;      // skip action
+            }
+            this.yym = yylen[this.yyn];          // get count of terminals on rhs
+            if (this.yydebug) {
+                this.debug("state " + this.yystate + ", reducing " + this.yym
+                        + " by rule " + this.yyn + " (" + yyrule[this.yyn]
+                        + ")");
+            }
+            if (this.yym > 0) {
+                this.yyval = this.val_peek(this.yym - 1); // get current
+                                                          // semantic value
+            }
+            this.yyval = this.dup_yyval(this.yyval); // duplicate yyval if
+                                                     // ParserVal is used as
+                                                     // semantic value
+            switch (this.yyn) {
             // ########## USER-SUPPLIED ACTIONS ##########
                 case 12:
                 // #line 84 "grammar.y"
                 {
-                    yyinfo("Sentencia que contiene únicamente el operador de fin de sentencia");
+                    this.yyinfo("Sentencia que contiene únicamente el operador de fin de sentencia");
                 }
                     break;
                 case 13:
                 // #line 88 "grammar.y"
                 {
-                    yyinfo("Sentencia \"si\"");
+                    this.yyinfo("Sentencia \"si\"");
+                    this.ifCondition();
                 }
                     break;
                 case 14:
                 // #line 89 "grammar.y"
                 {
-                    yyinfo("Sentencia \"si\" con \"sino\"");
+                    this.yyinfo("Sentencia \"si\" con \"sino\"");
+                    this.ifElseCondition();
                 }
                     break;
                 case 15:
                 // #line 90 "grammar.y"
                 {
-                    yyerror("Falta paréntesis izquierdo.");
+                    this.yyerror("Falta paréntesis izquierdo.");
                 }
                     break;
                 case 16:
                 // #line 91 "grammar.y"
                 {
-                    yyerror("Falta paréntesis derecho.");
+                    this.yyerror("Falta paréntesis derecho.");
                 }
                     break;
                 case 17:
                 // #line 92 "grammar.y"
                 {
-                    yyerror("Falta paréntesis izquierdo");
+                    this.yyerror("Falta paréntesis izquierdo");
                 }
                     break;
                 case 18:
                 // #line 93 "grammar.y"
                 {
-                    yyerror("Falta paréntesis derecho");
+                    this.yyerror("Falta paréntesis derecho");
                 }
                     break;
                 case 19:
                 // #line 97 "grammar.y"
                 {
-                    yyinfo("Sentencia \"para\"");
+                    this.yyinfo("Sentencia \"para\"");
+                    this.forCondition();
                 }
                     break;
                 case 20:
                 // #line 98 "grammar.y"
                 {
-                    yyerror("Falta paréntesis izquierdo");
+                    this.yyerror("Falta paréntesis izquierdo");
                 }
                     break;
                 case 21:
                 // #line 99 "grammar.y"
                 {
-                    yyerror("Falta paréntesis derecho");
+                    this.yyerror("Falta paréntesis derecho");
                 }
                     break;
                 case 22:
                 // #line 103 "grammar.y"
                 {
-                    yyinfo("Sentencia \"imprimir\"");
+                    this.yyinfo("Sentencia \"imprimir\"");
+                    this.print();
                 }
                     break;
                 case 23:
                 // #line 104 "grammar.y"
                 {
-                    yyerror("Falta operador de fin de sentencia");
+                    this.yyerror("Falta operador de fin de sentencia");
                 }
                     break;
                 case 24:
                 // #line 108 "grammar.y"
                 {
-                    yyinfo("Sentencia declarativa \"vector\" de tipo \"entero\"");
+                    this.yyinfo("Sentencia declarativa \"vector\" de tipo \"entero\"");
+                    this.vector();
                 }
                     break;
                 case 25:
                 // #line 109 "grammar.y"
                 {
-                    yyinfo("Sentencia declarativa \"vector\" de tipo \"doble\"");
+                    this.yyinfo("Sentencia declarativa \"vector\" de tipo \"doble\"");
+                    this.vector();
                 }
                     break;
                 case 26:
                 // #line 110 "grammar.y"
                 {
-                    yyerror("Falta operador de fin de sentencia");
+                    this.yyerror("Falta operador de fin de sentencia");
                 }
                     break;
                 case 27:
                 // #line 111 "grammar.y"
                 {
-                    yyerror("Falta constante entera o doble");
+                    this.yyerror("Falta constante entera o doble");
                 }
                     break;
                 case 28:
                 // #line 112 "grammar.y"
                 {
-                    yyerror("Falta operador \"de\"");
+                    this.yyerror("Falta operador \"de\"");
                 }
                     break;
                 case 29:
                 // #line 113 "grammar.y"
                 {
-                    yyerror("Falta operador \"vector\"");
+                    this.yyerror("Falta operador \"vector\"");
                 }
                     break;
                 case 30:
                 // #line 114 "grammar.y"
                 {
-                    yyerror("Falta paréntesis derecho");
+                    this.yyerror("Falta paréntesis derecho");
                 }
                     break;
                 case 31:
                 // #line 115 "grammar.y"
                 {
-                    yyerror("Falta constante entera de rango derecho");
+                    this.yyerror("Falta constante entera de rango derecho");
                 }
                     break;
                 case 32:
                 // #line 116 "grammar.y"
                 {
-                    yyerror("Falta operador rango \"..\"");
+                    this.yyerror("Falta operador rango \"..\"");
                 }
                     break;
                 case 33:
                 // #line 117 "grammar.y"
                 {
-                    yyerror("Falta constante entera de rango izquierdo");
+                    this.yyerror("Falta constante entera de rango izquierdo");
                 }
                     break;
                 case 34:
                 // #line 118 "grammar.y"
                 {
-                    yyerror("Falta paréntesis izquierdo");
+                    this.yyerror("Falta paréntesis izquierdo");
                 }
                     break;
                 case 35:
                 // #line 122 "grammar.y"
                 {
-                    yyinfo("Sentencia declarativa de tipo \"entero\"");
+                    this.yyinfo("Sentencia declarativa de tipo \"entero\"");
                 }
                     break;
                 case 36:
                 // #line 123 "grammar.y"
                 {
-                    yyinfo("Sentencia declarativa de tipo \"doble\"");
+                    this.yyinfo("Sentencia declarativa de tipo \"doble\"");
                 }
                     break;
                 case 37:
                 // #line 124 "grammar.y"
                 {
-                    yyerror("Falta expresión de asignación");
+                    this.yyerror("Falta expresión de asignación");
                 }
                     break;
                 case 38:
                 // #line 125 "grammar.y"
                 {
-                    yyerror("Falta expresión de asignación");
+                    this.yyerror("Falta expresión de asignación");
                 }
                     break;
                 case 39:
                 // #line 129 "grammar.y"
                 {
-                    yyinfo("Expresión de asignación de variable");
+                    this.yyinfo("Expresión de asignación de variable");
+                    this.assignToId();
                 }
                     break;
                 case 40:
                 // #line 130 "grammar.y"
                 {
-                    yyinfo("Expresión de asignación de vector");
+                    this.yyinfo("Expresión de asignación de vector");
+                    this.assignToVector();
                 }
                     break;
                 case 41:
                 // #line 131 "grammar.y"
                 {
-                    yyerror("Falta operador de fin de sentencia");
+                    this.yyerror("Falta operador de fin de sentencia");
                 }
                     break;
                 case 42:
                 // #line 132 "grammar.y"
                 {
-                    yyerror("Falta operador de fin de sentencia");
+                    this.yyerror("Falta operador de fin de sentencia");
                 }
                     break;
                 case 43:
                 // #line 133 "grammar.y"
                 {
-                    yyerror("Falta expresión aditiva");
+                    this.yyerror("Falta expresión aditiva");
                 }
                     break;
                 case 44:
                 // #line 134 "grammar.y"
                 {
-                    yyerror("Falta operador de asignación");
+                    this.yyerror("Falta operador de asignación");
                 }
                     break;
                 case 45:
                 // #line 135 "grammar.y"
                 {
-                    yyerror("Falta corchete izquierdo");
+                    this.yyerror("Falta corchete izquierdo");
                 }
                     break;
                 case 46:
                 // #line 136 "grammar.y"
                 {
-                    yyerror("Falta identificador de índice");
+                    this.yyerror("Falta identificador de índice");
                 }
                     break;
                 case 47:
                 // #line 137 "grammar.y"
                 {
-                    yyerror("Falta corchete derecho");
+                    this.yyerror("Falta corchete derecho");
                 }
                     break;
                 case 48:
                 // #line 141 "grammar.y"
                 {
-                    yyinfo("Expresión condicional con comparador =");
+                    this.yyinfo("Expresión condicional con comparador =");
+                    this.eq();
                 }
                     break;
                 case 49:
                 // #line 142 "grammar.y"
                 {
-                    yyinfo("Expresión condicional con comparador ^=");
+                    this.yyinfo("Expresión condicional con comparador ^=");
+                    this.ne();
                 }
                     break;
                 case 50:
                 // #line 143 "grammar.y"
                 {
-                    yyinfo("Expresión condicional con comparador <");
+                    this.yyinfo("Expresión condicional con comparador <");
+                    this.lt();
                 }
                     break;
                 case 51:
                 // #line 144 "grammar.y"
                 {
-                    yyinfo("Expresión condicional con comparador >");
+                    this.yyinfo("Expresión condicional con comparador >");
+                    this.gt();
                 }
                     break;
                 case 52:
                 // #line 145 "grammar.y"
                 {
-                    yyinfo("Expresión condicional con comparador <=");
+                    this.yyinfo("Expresión condicional con comparador <=");
+                    this.le();
                 }
                     break;
                 case 53:
                 // #line 146 "grammar.y"
                 {
-                    yyinfo("Expresión condicional con comparador >=");
+                    this.yyinfo("Expresión condicional con comparador >=");
+                    this.ge();
                 }
                     break;
                 case 54:
                 // #line 147 "grammar.y"
                 {
-                    yyerror("Falta expresión aditiva");
+                    this.yyerror("Falta expresión aditiva");
                 }
                     break;
                 case 55:
                 // #line 148 "grammar.y"
                 {
-                    yyerror("Falta expresión aditiva");
+                    this.yyerror("Falta expresión aditiva");
                 }
                     break;
                 case 56:
                 // #line 149 "grammar.y"
                 {
-                    yyerror("Falta expresión aditiva");
+                    this.yyerror("Falta expresión aditiva");
                 }
                     break;
                 case 57:
                 // #line 150 "grammar.y"
                 {
-                    yyerror("Falta expresión aditiva");
+                    this.yyerror("Falta expresión aditiva");
                 }
                     break;
                 case 58:
                 // #line 151 "grammar.y"
                 {
-                    yyerror("Falta expresión aditiva");
+                    this.yyerror("Falta expresión aditiva");
                 }
                     break;
                 case 59:
                 // #line 152 "grammar.y"
                 {
-                    yyerror("Falta expresión aditiva");
+                    this.yyerror("Falta expresión aditiva");
                 }
                     break;
                 case 61:
                 // #line 157 "grammar.y"
                 {
-                    yyinfo("Expresión aditiva con operador +");
+                    this.yyinfo("Expresión aditiva con operador +");
+                    this.add();
                 }
                     break;
                 case 62:
                 // #line 158 "grammar.y"
                 {
-                    yyinfo("Expresión aditiva con operador -");
+                    this.yyinfo("Expresión aditiva con operador -");
+                    this.sub();
                 }
                     break;
                 case 63:
                 // #line 159 "grammar.y"
                 {
-                    yyerror("Falta expresión multiplicativa");
+                    this.yyerror("Falta expresión multiplicativa");
                 }
                     break;
                 case 64:
                 // #line 160 "grammar.y"
                 {
-                    yyerror("Falta expresión multiplicativa");
+                    this.yyerror("Falta expresión multiplicativa");
                 }
                     break;
                 case 66:
                 // #line 165 "grammar.y"
                 {
-                    yyinfo("Expresión multiplicativa con operador *");
+                    this.yyinfo("Expresión multiplicativa con operador *");
+                    this.mul();
                 }
                     break;
                 case 67:
                 // #line 166 "grammar.y"
                 {
-                    yyinfo("Expresión multiplicativa con operador /");
+                    this.yyinfo("Expresión multiplicativa con operador /");
+                    this.div();
                 }
                     break;
                 case 68:
                 // #line 167 "grammar.y"
                 {
-                    yyerror("Falta expresión unaria.");
+                    this.yyerror("Falta expresión unaria.");
                 }
                     break;
                 case 69:
                 // #line 168 "grammar.y"
                 {
-                    yyerror("Falta expresión unaria.");
+                    this.yyerror("Falta expresión unaria.");
+                }
+                    break;
+                case 72:
+                // #line 174 "grammar.y"
+                {
+                    this.idAt();
                 }
                     break;
                 case 75:
                 // #line 180 "grammar.y"
                 {
-                    yyinfo("Bloque con sentencia");
+                    this.yyinfo("Bloque con sentencia");
                 }
                     break;
                 case 76:
                 // #line 181 "grammar.y"
                 {
-                    yyinfo("Bloque vacío");
+                    this.yyinfo("Bloque vacío");
                 }
                     break;
                 case 77:
                 // #line 182 "grammar.y"
                 {
-                    yyerror("Falta llave de fin de bloque.");
+                    this.yyerror("Falta llave de fin de bloque.");
                 }
                     break;
                 case 78:
                 // #line 183 "grammar.y"
                 {
-                    yyerror("Falta llave de fin de bloque.");
+                    this.yyerror("Falta llave de fin de bloque.");
                 }
                     break;
-            // #line 897 "Parser.java"
+            // #line 901 "Parser.java"
             // ########## END OF USER-SUPPLIED ACTIONS ##########
             }// switch
              // #### Now let's reduce... ####
-            if (yydebug) debug("reduce");
-            state_drop(yym);             // we just reduced yylen states
-            yystate = state_peek(0);     // get new state
-            val_drop(yym);               // corresponding value drop
-            yym = yylhs[yyn];            // select next TERMINAL(on lhs)
-            if (yystate == 0 && yym == 0)// done? 'rest' state and at first
-                                         // TERMINAL
+            if (this.yydebug) {
+                this.debug("reduce");
+            }
+            this.state_drop(this.yym);             // we just reduced yylen states
+            this.yystate = this.state_peek(0);     // get new state
+            this.val_drop(this.yym);               // corresponding value drop
+            this.yym = yylhs[this.yyn];            // select next TERMINAL(on lhs)
+            if (this.yystate == 0 && this.yym == 0)// done? 'rest' state and at
+                                                   // first TERMINAL
             {
-                if (yydebug) debug("After reduction, shifting from state 0 to state "
-                        + YYFINAL + "");
-                yystate = YYFINAL;         // explicitly say we're done
-                state_push(YYFINAL);       // and save it
-                val_push(yyval);           // also save the semantic value of parsing
-                if (yychar < 0)            // we want another character?
-                {
-                    yychar = yylex();        // get next character
-                    if (yychar < 0) yychar = 0;  // clean, if necessary
-                    if (yydebug) yylexdebug(yystate, yychar);
+                if (this.yydebug) {
+                    this.debug("After reduction, shifting from state 0 to state "
+                            + YYFINAL + "");
                 }
-                if (yychar == 0)          // Good exit (if lex returns 0 ;-)
-                break;                 // quit the loop--all DONE
+                this.yystate = YYFINAL;         // explicitly say we're done
+                this.state_push(YYFINAL);       // and save it
+                this.val_push(this.yyval);           // also save the semantic value of
+                // parsing
+                if (this.yychar < 0)            // we want another character?
+                {
+                    this.yychar = this.yylex();        // get next character
+                    if (this.yychar < 0) {
+                        this.yychar = 0;  // clean, if necessary
+                    }
+                    if (this.yydebug) {
+                        this.yylexdebug(this.yystate, this.yychar);
+                    }
+                }
+                if (this.yychar == 0) {
+                    break;                 // quit the loop--all DONE
+                }
             }// if yystate
             else                        // else not done yet
             {                         // get next state and push, for next yydefred[]
-                yyn = yygindex[yym];      // find out where to go
-                if ((yyn != 0) && (yyn += yystate) >= 0 && yyn <= YYTABLESIZE
-                        && yycheck[yyn] == yystate) yystate = yytable[yyn]; // get
-                                                                            // new
-                                                                            // state
-                else
-                    yystate = yydgoto[yym]; // else go to new defred
-                if (yydebug) debug("after reduction, shifting from state "
-                        + state_peek(0) + " to state " + yystate + "");
-                state_push(yystate);     // going again, so push state & val...
-                val_push(yyval);         // for next action
+                this.yyn = yygindex[this.yym];      // find out where to go
+                if (this.yyn != 0 && (this.yyn += this.yystate) >= 0
+                        && this.yyn <= YYTABLESIZE
+                        && yycheck[this.yyn] == this.yystate) {
+                    this.yystate = yytable[this.yyn]; // get new state
+                } else {
+                    this.yystate = yydgoto[this.yym]; // else go to new defred
+                }
+                if (this.yydebug) {
+                    this.debug("after reduction, shifting from state "
+                            + this.state_peek(0) + " to state " + this.yystate
+                            + "");
+                }
+                this.state_push(this.yystate);     // going again, so push state &
+                // val...
+                this.val_push(this.yyval);         // for next action
             }
         }// main loop
         return 0;// yyaccept!!
@@ -1066,7 +1157,7 @@ public class Parser extends BaseParser {
      * Turn off with -Jnorun .
      */
     public void run() {
-        yyparse();
+        this.yyparse();
     }
 
     // ## end of method run() ########################################
@@ -1090,7 +1181,7 @@ public class Parser extends BaseParser {
             final boolean debugMe)
             throws IOException {
         super(lexical, sourceCode);
-        yydebug = debugMe;
+        this.yydebug = debugMe;
     }
     // ###############################################################
 

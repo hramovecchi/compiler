@@ -85,8 +85,8 @@ EmptyStatement
     ;
 
 SelectionStatement
-    : IF LPAREN ConditionalExpression RPAREN Statement %prec LOWER_THAN_ELSE             {yyinfo("Sentencia \"si\"");}
-    | IF LPAREN ConditionalExpression RPAREN Statement ELSE Statement                    {yyinfo("Sentencia \"si\" con \"sino\"");}
+    : IF LPAREN ConditionalExpression RPAREN Statement %prec LOWER_THAN_ELSE             {yyinfo("Sentencia \"si\""); ifCondition();}
+    | IF LPAREN ConditionalExpression RPAREN Statement ELSE Statement                    {yyinfo("Sentencia \"si\" con \"sino\""); ifElseCondition();}
     | IF error ConditionalExpression RPAREN Statement %prec LOWER_THAN_ELSE              {yyerror("Falta paréntesis izquierdo.");}
     | IF LPAREN ConditionalExpression error Statement %prec LOWER_THAN_ELSE              {yyerror("Falta paréntesis derecho.");}
     | IF error ConditionalExpression RPAREN Statement ELSE Statement                     {yyerror("Falta paréntesis izquierdo");}
@@ -94,19 +94,19 @@ SelectionStatement
     ;
 
 IterationStatement
-    : FOR LPAREN ConditionalExpression RPAREN Statement                                  {yyinfo("Sentencia \"para\"");}
+    : FOR LPAREN ConditionalExpression RPAREN Statement                                  {yyinfo("Sentencia \"para\""); forCondition();}
     | FOR error ConditionalExpression RPAREN Statement                                   {yyerror("Falta paréntesis izquierdo");}
     | FOR LPAREN ConditionalExpression error Statement                                   {yyerror("Falta paréntesis derecho");}
     ;
 
 PrintExpression
-    : PRINT STRING SEMICOLON                                                             {yyinfo("Sentencia \"imprimir\"");}
+    : PRINT STRING SEMICOLON                                                             {yyinfo("Sentencia \"imprimir\""); print();}
     | PRINT STRING error                                                                 {yyerror("Falta operador de fin de sentencia");}
     ;
 
 VectorStatement
-    : ID LBRACK CONST_INTEGER RANGE CONST_INTEGER RBRACK VECTOR OF INTEGER SEMICOLON     {yyinfo("Sentencia declarativa \"vector\" de tipo \"entero\"");}
-    | ID LBRACK CONST_INTEGER RANGE CONST_INTEGER RBRACK VECTOR OF DOUBLE SEMICOLON      {yyinfo("Sentencia declarativa \"vector\" de tipo \"doble\"");}
+    : ID LBRACK CONST_INTEGER RANGE CONST_INTEGER RBRACK VECTOR OF INTEGER SEMICOLON     {yyinfo("Sentencia declarativa \"vector\" de tipo \"entero\""); vector();}
+    | ID LBRACK CONST_INTEGER RANGE CONST_INTEGER RBRACK VECTOR OF DOUBLE SEMICOLON      {yyinfo("Sentencia declarativa \"vector\" de tipo \"doble\""); vector();}
     | ID LBRACK CONST_INTEGER RANGE CONST_INTEGER RBRACK VECTOR OF INTEGER error         {yyerror("Falta operador de fin de sentencia");}
     | ID LBRACK CONST_INTEGER RANGE CONST_INTEGER RBRACK VECTOR OF error SEMICOLON       {yyerror("Falta constante entera o doble");}
     | ID LBRACK CONST_INTEGER RANGE CONST_INTEGER RBRACK VECTOR error INTEGER SEMICOLON  {yyerror("Falta operador \"de\"");}
@@ -126,8 +126,8 @@ VariableStatement
     ;
 
 AssignmentExpression
-    : ID ASSIGN AdditiveExpression SEMICOLON                                             {yyinfo("Expresión de asignación de variable");}
-    | ID LBRACK ID RBRACK ASSIGN AdditiveExpression SEMICOLON                            {yyinfo("Expresión de asignación de vector");}
+    : ID ASSIGN AdditiveExpression SEMICOLON                                             {yyinfo("Expresión de asignación de variable"); assignToId();}
+    | ID LBRACK ID RBRACK ASSIGN AdditiveExpression SEMICOLON                            {yyinfo("Expresión de asignación de vector"); assignToVector();}
     | ID ASSIGN AdditiveExpression error                                                 {yyerror("Falta operador de fin de sentencia");}
     | ID LBRACK ID RBRACK ASSIGN AdditiveExpression error                                {yyerror("Falta operador de fin de sentencia");}
     | ID LBRACK ID RBRACK ASSIGN error SEMICOLON                                         {yyerror("Falta expresión aditiva");}
@@ -138,12 +138,12 @@ AssignmentExpression
     ;
 
 ConditionalExpression
-    : AdditiveExpression EQ AdditiveExpression                                           {yyinfo("Expresión condicional con comparador =");}
-    | AdditiveExpression NE AdditiveExpression                                           {yyinfo("Expresión condicional con comparador ^=");}
-    | AdditiveExpression LT AdditiveExpression                                           {yyinfo("Expresión condicional con comparador <");}
-    | AdditiveExpression GT AdditiveExpression                                           {yyinfo("Expresión condicional con comparador >");}
-    | AdditiveExpression LE AdditiveExpression                                           {yyinfo("Expresión condicional con comparador <=");}
-    | AdditiveExpression GE AdditiveExpression                                           {yyinfo("Expresión condicional con comparador >=");}
+    : AdditiveExpression EQ AdditiveExpression                                           {yyinfo("Expresión condicional con comparador ="); eq();}
+    | AdditiveExpression NE AdditiveExpression                                           {yyinfo("Expresión condicional con comparador ^="); ne();}
+    | AdditiveExpression LT AdditiveExpression                                           {yyinfo("Expresión condicional con comparador <"); lt();}
+    | AdditiveExpression GT AdditiveExpression                                           {yyinfo("Expresión condicional con comparador >"); gt();}
+    | AdditiveExpression LE AdditiveExpression                                           {yyinfo("Expresión condicional con comparador <="); le();}
+    | AdditiveExpression GE AdditiveExpression                                           {yyinfo("Expresión condicional con comparador >="); ge();}
     | AdditiveExpression EQ error                                                        {yyerror("Falta expresión aditiva");}
     | AdditiveExpression NE error                                                        {yyerror("Falta expresión aditiva");}
     | AdditiveExpression LT error                                                        {yyerror("Falta expresión aditiva");}
@@ -154,16 +154,16 @@ ConditionalExpression
 
 AdditiveExpression
     : MultiplicativeExpression
-    | AdditiveExpression ADD MultiplicativeExpression                                    {yyinfo("Expresión aditiva con operador +");}
-    | AdditiveExpression SUB MultiplicativeExpression                                    {yyinfo("Expresión aditiva con operador -");}
+    | AdditiveExpression ADD MultiplicativeExpression                                    {yyinfo("Expresión aditiva con operador +"); add();}
+    | AdditiveExpression SUB MultiplicativeExpression                                    {yyinfo("Expresión aditiva con operador -"); sub();}
     | AdditiveExpression ADD error                                                       {yyerror("Falta expresión multiplicativa");}
     | AdditiveExpression SUB error                                                       {yyerror("Falta expresión multiplicativa");}
     ;
 
 MultiplicativeExpression
     : UnaryExpression
-    | MultiplicativeExpression MUL UnaryExpression                                       {yyinfo("Expresión multiplicativa con operador *");}
-    | MultiplicativeExpression DIV UnaryExpression                                       {yyinfo("Expresión multiplicativa con operador /");}
+    | MultiplicativeExpression MUL UnaryExpression                                       {yyinfo("Expresión multiplicativa con operador *"); mul();}
+    | MultiplicativeExpression DIV UnaryExpression                                       {yyinfo("Expresión multiplicativa con operador /"); div();}
     | MultiplicativeExpression MUL error                                                 {yyerror("Falta expresión unaria.");}
     | MultiplicativeExpression DIV error                                                 {yyerror("Falta expresión unaria.");}
     ;
@@ -171,14 +171,14 @@ MultiplicativeExpression
 UnaryExpression
     : ID
     | SUB ID
-    | ID LBRACK ID RBRACK
+    | ID LBRACK ID RBRACK                                                                {idAt();}
     | CONST_INTEGER
     | CONST_DOUBLE
     ;
 
 Block
-    : LBRACE DeclarationList RBRACE                                                     {yyinfo("Bloque con sentencia");}
-    | LBRACE RBRACE                                                                     {yyinfo("Bloque vacío");}
-    | LBRACE DeclarationList error                                                      {yyerror("Falta llave de fin de bloque.");}
-    | LBRACE error                                                                      {yyerror("Falta llave de fin de bloque.");}
+    : LBRACE DeclarationList RBRACE                                                      {yyinfo("Bloque con sentencia");}
+    | LBRACE RBRACE                                                                      {yyinfo("Bloque vacío");}
+    | LBRACE DeclarationList error                                                       {yyerror("Falta llave de fin de bloque.");}
+    | LBRACE error                                                                       {yyerror("Falta llave de fin de bloque.");}
     ;

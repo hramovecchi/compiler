@@ -22,13 +22,42 @@
         </encoder>
     </appender> 
 
+    <appender name="FILE_ANALYZER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/compiler-analyzer.%d{yyyy-MM-dd'T'HHmm}.log</fileNamePattern>
+            <maxHistory>10</maxHistory>
+        </rollingPolicy>
+    
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level - %msg%n</pattern>
+        </encoder>
+    </appender> 
+
+    <appender name="FILE_SYMBOL_TABLE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/symbol-table.%d{yyyy-MM-dd'T'HHmm}.log</fileNamePattern>
+            <maxHistory>10</maxHistory>
+        </rollingPolicy>
+    
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level - %msg%n</pattern>
+        </encoder>
+    </appender> 
+
     <logger name="ch.qos.logback" level="ERROR">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE" />
     </logger>
 
-    <logger name="ar.exa.edu.unicen.compiler.lexical" level="INFO">
+    <logger name="LEXICAL" level="INFO">
         <appender-ref ref="STDOUT" />
-        <appender-ref ref="FILE" />
+        <appender-ref ref="FILE_ANALYZER" />
+    </logger>
+    <logger name="SYNTACTIC" level="INFO">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE_ANALYZER" />
+    </logger>
+    <logger name="SYMBOL_TABLE" level="INFO">
+        <appender-ref ref="STDOUT" />
     </logger>
 </configuration>

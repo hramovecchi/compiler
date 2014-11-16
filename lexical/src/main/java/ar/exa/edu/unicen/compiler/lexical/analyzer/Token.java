@@ -6,7 +6,7 @@ import ar.exa.edu.unicen.compiler.lexical.utils.MessageUtils.Phase;
 /**
  * Constant class that defines all the possible token recognizable by the
  * grammar.
- * 
+ *
  * @author pmvillafane
  */
 public enum Token {
@@ -68,7 +68,7 @@ public enum Token {
 
     /**
      * Default constructor.
-     * 
+     *
      * @param type
      *            token type.
      * @param description
@@ -89,20 +89,20 @@ public enum Token {
 
     /**
      * Gets the token type.
-     * 
+     *
      * @return token type.
      */
     public String getType() {
-        return type;
+        return this.type;
     }
 
     /**
      * Gets the description that refers the token.
-     * 
+     *
      * @return the description.
      */
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
     /**
@@ -111,7 +111,7 @@ public enum Token {
      * @return token identifier.
      */
     public int getId() {
-        return id;
+        return this.id;
     }
 
     /**
@@ -121,12 +121,12 @@ public enum Token {
      *         keywords, constants, etc.
      */
     public Category getCategory() {
-        return category;
+        return this.category;
     }
 
     /**
      * Finds a token according to the given category and lexeme.
-     * 
+     *
      * @param category
      *            the category assigned to the token.
      * @param lexeme
@@ -138,7 +138,7 @@ public enum Token {
     public static Token findToken(final Category category, final String lexeme,
             final int line) {
 
-        for (Token token : Token.values()) {
+        for (final Token token : Token.values()) {
             if (token.getCategory().equals(category)
                     && lexeme.matches(token.getType())) {
                 return token;
