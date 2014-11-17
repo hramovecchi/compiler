@@ -65,11 +65,9 @@
     </logger>
 
     <logger name="LEXICAL" level="INFO">
-        <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE_ANALYZER" />
     </logger>
     <logger name="SYNTACTIC" level="INFO">
-        <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE_ANALYZER" />
     </logger>
     <logger name="TRIPLET" level="INFO">
@@ -77,7 +75,6 @@
         <appender-ref ref="FILE_TRIPLETS" />
     </logger>
     <logger name="SYMBOL_TABLE" level="INFO">
-        <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE_SYMBOL_TABLE" />
     </logger>
 </configuration>

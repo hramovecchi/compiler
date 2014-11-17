@@ -71,7 +71,7 @@ public abstract class BaseParser {
         } else {
             result =
                     Double.parseDouble(pair[0])
-                            * Math.pow(10D, Double.parseDouble(pair[1]));
+                    * Math.pow(10D, Double.parseDouble(pair[1]));
         }
 
         return String.valueOf(result);
@@ -90,7 +90,7 @@ public abstract class BaseParser {
             switch (token) {
                 case CONST_DOUBLE:
                     final String doubleVal =
-                            stringToDouble(this.currentTuple.getLexeme());
+                    stringToDouble(this.currentTuple.getLexeme());
                     this.stack.push(doubleVal);
                     break;
                 case CONST_INTEGER:
@@ -148,9 +148,6 @@ public abstract class BaseParser {
         final Triplet triplet = new Triplet(Token.ID, operand1, operand2);
         this.stack.push(this.triplets.size());
         this.triplets.add(triplet);
-
-        info(this.triplets.size() - 1, triplet.getOperator().toString(),
-                triplet.getOperand1(), triplet.getOperand2());
     }
 
     protected void ifCondition() {
@@ -161,16 +158,12 @@ public abstract class BaseParser {
             final Triplet triplet = (Triplet) operand;
             triplet.setOperand2(this.triplets.size());
 
-            info(this.triplets.size() - 1, triplet.getOperator().toString(),
-                    triplet.getOperand1(), triplet.getOperand2());
         } else {
 
             final Triplet triplet = (Triplet) this.stack.pop();
             triplet.setOperand2(this.triplets.size());
             this.stack.push(operand);
 
-            info(this.triplets.size() - 1, triplet.getOperator().toString(),
-                    triplet.getOperand1(), triplet.getOperand2());
         }
     }
 
@@ -179,8 +172,6 @@ public abstract class BaseParser {
         final Triplet triplet = (Triplet) this.stack.pop();
         triplet.setOperand2(this.triplets.size() - 1);
 
-        info(this.triplets.size() - 1, triplet.getOperator().toString(),
-                triplet.getOperand1(), triplet.getOperand2());
     }
 
     protected void forCondition() {
@@ -191,8 +182,6 @@ public abstract class BaseParser {
         triplet = new Triplet(Branch.BI, triplet.getOperand1(), null);
         this.triplets.add(triplet);
 
-        info(this.triplets.size() - 1, triplet.getOperator().toString(),
-                triplet.getOperand1(), triplet.getOperand2());
     }
 
     protected void print() {
@@ -201,8 +190,6 @@ public abstract class BaseParser {
         final Triplet triplet = new Triplet(Token.PRINT, operand1, null);
         this.triplets.add(triplet);
 
-        info(this.triplets.size() - 1, triplet.getOperator().toString(),
-                triplet.getOperand1(), triplet.getOperand2());
     }
 
     protected void vector() {
@@ -213,16 +200,11 @@ public abstract class BaseParser {
         this.stack.push(this.triplets.size());
         this.triplets.add(triplet);
 
-        info(this.triplets.size() - 1, triplet.getOperator().toString(),
-                triplet.getOperand1(), triplet.getOperand2());
-
         operand2 = this.stack.pop();
         operand1 = this.stack.pop();
         triplet = new Triplet(Token.VECTOR, operand1, operand2);
         this.triplets.add(triplet);
 
-        info(this.triplets.size() - 1, triplet.getOperator().toString(),
-                triplet.getOperand1(), triplet.getOperand2());
     }
 
     protected void assignToId() {
@@ -232,8 +214,6 @@ public abstract class BaseParser {
         final Triplet triplet = new Triplet(Token.ASSIGN, operand1, operand2);
         this.triplets.add(triplet);
 
-        info(this.triplets.size() - 1, triplet.getOperator().toString(),
-                triplet.getOperand1(), triplet.getOperand2());
     }
 
     protected void assignToVector() {
@@ -249,8 +229,6 @@ public abstract class BaseParser {
         triplet = new Triplet(Token.ID, operand4, operand3);
         this.triplets.add(triplet);
 
-        info(this.triplets.size() - 1, triplet.getOperator().toString(),
-                triplet.getOperand1(), triplet.getOperand2());
     }
 
     private void branchFail() {
@@ -260,8 +238,6 @@ public abstract class BaseParser {
         this.stack.push(triplet);
         this.triplets.add(triplet);
 
-        info(this.triplets.size() - 1, triplet.getOperator().toString(),
-                triplet.getOperand1(), triplet.getOperand2());
     }
 
     protected void eq() {
@@ -271,9 +247,6 @@ public abstract class BaseParser {
         final Triplet triplet = new Triplet(Token.EQ, operand1, operand2);
         this.stack.push(this.triplets.size());
         this.triplets.add(triplet);
-
-        info(this.triplets.size() - 1, triplet.getOperator().toString(),
-                triplet.getOperand1(), triplet.getOperand2());
 
         this.branchFail();
     }
@@ -286,9 +259,6 @@ public abstract class BaseParser {
         this.stack.push(this.triplets.size());
         this.triplets.add(triplet);
 
-        info(this.triplets.size() - 1, triplet.getOperator().toString(),
-                triplet.getOperand1(), triplet.getOperand2());
-
         this.branchFail();
     }
 
@@ -299,9 +269,6 @@ public abstract class BaseParser {
         final Triplet triplet = new Triplet(Token.LT, operand1, operand2);
         this.stack.push(this.triplets.size());
         this.triplets.add(triplet);
-
-        info(this.triplets.size() - 1, triplet.getOperator().toString(),
-                triplet.getOperand1(), triplet.getOperand2());
 
         this.branchFail();
     }
@@ -314,9 +281,6 @@ public abstract class BaseParser {
         this.stack.push(this.triplets.size());
         this.triplets.add(triplet);
 
-        info(this.triplets.size() - 1, triplet.getOperator().toString(),
-                triplet.getOperand1(), triplet.getOperand2());
-
         this.branchFail();
     }
 
@@ -327,9 +291,6 @@ public abstract class BaseParser {
         final Triplet triplet = new Triplet(Token.LE, operand1, operand2);
         this.stack.push(this.triplets.size());
         this.triplets.add(triplet);
-
-        info(this.triplets.size() - 1, triplet.getOperator().toString(),
-                triplet.getOperand1(), triplet.getOperand2());
 
         this.branchFail();
     }
@@ -342,9 +303,6 @@ public abstract class BaseParser {
         this.stack.push(this.triplets.size());
         this.triplets.add(triplet);
 
-        info(this.triplets.size() - 1, triplet.getOperator().toString(),
-                triplet.getOperand1(), triplet.getOperand2());
-
         this.branchFail();
     }
 
@@ -356,8 +314,6 @@ public abstract class BaseParser {
         this.stack.push(this.triplets.size());
         this.triplets.add(triplet);
 
-        info(this.triplets.size() - 1, triplet.getOperator().toString(),
-                triplet.getOperand1(), triplet.getOperand2());
     }
 
     protected void sub() {
@@ -368,8 +324,6 @@ public abstract class BaseParser {
         this.stack.push(this.triplets.size());
         this.triplets.add(triplet);
 
-        info(this.triplets.size() - 1, triplet.getOperator().toString(),
-                triplet.getOperand1(), triplet.getOperand2());
     }
 
     protected void mul() {
@@ -380,8 +334,6 @@ public abstract class BaseParser {
         this.stack.push(this.triplets.size());
         this.triplets.add(triplet);
 
-        info(this.triplets.size() - 1, triplet.getOperator().toString(),
-                triplet.getOperand1(), triplet.getOperand2());
     }
 
     protected void div() {
@@ -392,8 +344,6 @@ public abstract class BaseParser {
         this.stack.push(this.triplets.size());
         this.triplets.add(triplet);
 
-        info(this.triplets.size() - 1, triplet.getOperator().toString(),
-                triplet.getOperand1(), triplet.getOperand2());
     }
 
 }
