@@ -12,7 +12,8 @@ public class MessageUtils {
     public enum Phase {
         LEXICAL("Léxico"),
         SYNTACTIC("Sintáctico"),
-        SYMBOL_TABLE("Tabla Símbolos");
+        SYMBOL_TABLE("Tabla Símbolos"),
+        TRIPLET("Terceto");
 
         private final String name;
 
@@ -129,6 +130,33 @@ public class MessageUtils {
             final String err) {
         getLogger(phase).error("{} - Línea {}: {}", phase.getName(),
                 fixedLengthString(String.valueOf(line), MAX_LINE_FIXED), err);
+    }
+
+    public static void info(final int count, final String operator,
+            final Object operand1, final Object operand2) {
+
+        if (operand1 instanceof Integer
+                && (operand2 instanceof String || operand2 == null)) {
+
+            getLogger(Phase.TRIPLET).info("{} - {}. ({}, [{}], {})",
+                    Phase.TRIPLET.name(), count, operator, operand1, operand2);
+
+        } else if (operand1 instanceof String && operand2 instanceof Integer) {
+
+            getLogger(Phase.TRIPLET).info("{} - {}. ({}, {}, [{}])",
+                    Phase.TRIPLET.name(), count, operator, operand1, operand2);
+
+        } else if (operand1 instanceof Integer && operand2 instanceof Integer) {
+
+            getLogger(Phase.TRIPLET).info("{} - {}. ({}, [{}], [{}])",
+                    Phase.TRIPLET.name(), count, operator, operand1, operand2);
+
+        } else {
+
+            getLogger(Phase.TRIPLET).info("{} - {}. ({}, {}, {})",
+                    Phase.TRIPLET.name(), count, operator, operand1, operand2);
+
+        }
     }
 
 }

@@ -33,6 +33,17 @@
         </encoder>
     </appender> 
 
+    <appender name="FILE_TRIPLETS" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/triplets.%d{yyyy-MM-dd'T'HHmm}.log</fileNamePattern>
+            <maxHistory>10</maxHistory>
+        </rollingPolicy>
+    
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level - %msg%n</pattern>
+        </encoder>
+    </appender> 
+
     <appender name="FILE_SYMBOL_TABLE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>logs/symbol-table.%d{yyyy-MM-dd'T'HHmm}.log</fileNamePattern>
@@ -49,6 +60,10 @@
         <appender-ref ref="FILE" />
     </logger>
 
+    <logger name="ar.exa.edu.unicen.compiler.syntactic.SyntacticTest" level="DEBUG">
+        <appender-ref ref="STDOUT" />
+    </logger>
+
     <logger name="LEXICAL" level="INFO">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE_ANALYZER" />
@@ -57,7 +72,12 @@
         <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE_ANALYZER" />
     </logger>
+    <logger name="TRIPLET" level="INFO">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE_TRIPLETS" />
+    </logger>
     <logger name="SYMBOL_TABLE" level="INFO">
         <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE_SYMBOL_TABLE" />
     </logger>
 </configuration>
