@@ -1,8 +1,14 @@
 package ar.exa.edu.unicen.compiler.cg.asm;
 
+import java.util.Map;
+
 import ar.exa.edu.unicen.compiler.lexical.utils.Triplet;
 
 public class GreaterThanOrEqualTo extends BaseOperation {
+
+    public GreaterThanOrEqualTo(final Map<String, String> variables) {
+        super(variables);
+    }
 
     @Override
     public String toAsm(final int index, final Triplet triplet) {

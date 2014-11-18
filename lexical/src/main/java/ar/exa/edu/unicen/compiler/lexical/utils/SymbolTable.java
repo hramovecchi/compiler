@@ -2,8 +2,10 @@ package ar.exa.edu.unicen.compiler.lexical.utils;
 
 import static ar.exa.edu.unicen.compiler.lexical.utils.MessageUtils.info;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import ar.exa.edu.unicen.compiler.lexical.analyzer.Token;
 import ar.exa.edu.unicen.compiler.lexical.utils.MessageUtils.Phase;
@@ -72,30 +74,35 @@ public class SymbolTable {
         symbolData.setType(type);
         info(Phase.SYMBOL_TABLE, lexeme, symbolData.getToken(), type, line);
     }
-    
-	public boolean isVariableInteger(final String lexeme) {
-		final Element element = this.table.get(lexeme); 
-		return Token.ID.equals(element.getToken()) && Token.INTEGER.name().equals(element.getType());
-	}
 
-	public boolean isVariableDouble(final String lexeme) {
-		final Element element = this.table.get(lexeme); 
-		return Token.ID.equals(element.getToken()) && Token.DOUBLE.name().equals(element.getType());
-	}
+    public boolean isVariableInteger(final String lexeme) {
+        final Element element = this.table.get(lexeme);
+        return Token.ID.equals(element.getToken())
+                && Token.INTEGER.name().equals(element.getType());
+    }
 
-	public boolean isConstInteger(final String lexeme) {
-		final Element element = this.table.get(lexeme); 
-		return Token.CONST_INTEGER.equals(element.getToken());
-	}
+    public boolean isVariableDouble(final String lexeme) {
+        final Element element = this.table.get(lexeme);
+        return Token.ID.equals(element.getToken())
+                && Token.DOUBLE.name().equals(element.getType());
+    }
 
-	public boolean isConstDouble(final String lexeme) {
-		final Element element = this.table.get(lexeme); 
-		return Token.CONST_DOUBLE.equals(element.getToken());
-	}
+    public boolean isConstantInteger(final String lexeme) {
+        final Element element = this.table.get(lexeme);
+        return Token.CONST_INTEGER.equals(element.getToken());
+    }
 
-	public boolean isConstString(final String lexeme) {
-		final Element element = this.table.get(lexeme); 
-		return Token.STRING.equals(element.getToken());
-	}
+    public boolean isConstantDouble(final String lexeme) {
+        final Element element = this.table.get(lexeme);
+        return Token.CONST_DOUBLE.equals(element.getToken());
+    }
 
+    public boolean isConstantString(final String lexeme) {
+        final Element element = this.table.get(lexeme);
+        return Token.STRING.equals(element.getToken());
+    }
+
+    public Set<String> getLexemes() {
+        return Collections.unmodifiableSet(this.table.keySet());
+    }
 }

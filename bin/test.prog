@@ -4,18 +4,15 @@ entero variable_muy_larga := 20;
 imprimir 'Empieza programa
  	 + de prueba';
 
-peso[15..100] vector de doble;
-
 entero contador := 5;
-para (contador <= 10) {
-    peso[contador] := 123.4b-5 + variable_muy_larga * .5 / 1.2B+3 - -1.58B4;
+para (entero contador := 5; contador < 10; contador := contador + 1) {
 
-    si (peso[contador] < 38) {
-        imprimir 'hola mundo';
+    entero resto := contador - contador / 2 * 2;
+    si (resto = 0) {
+        imprimir 'iteracion par';
     } sino 
-        imprimir 'esto es una prueba';
+        imprimir 'iteracion impar';
 
-    contador := contador + 1;
 }
 
 ** Fin del test

@@ -2,30 +2,19 @@
 entero variable_muy_larga := 20;
 
 imprimir 'Empieza programa
- 	 + de prueba';
+     + de prueba';
 
-peso[5..10] vector de doble;
-
+entero contador := 5;
 para (entero contador := 5; contador < 10; contador := contador + 1) {
-    peso[contador] := 123.4b-5 + variable_muy_larga * .5 / 1.2B+3 - -1.58B4;
 
-    si (peso[contador] < 38) {
-        imprimir 'hola mundo';
+    entero resto := contador - contador / 2 * 2;
+    si (resto = 0) {
+        imprimir 'iteracion par';
     } sino 
-        imprimir 'esto es una prueba';
+        imprimir 'iteracion impar';
 
-    si (peso[contador] > 5) {
-        imprimir 'sentencia if simple';
-    }
 }
 
 ** Fin del test
 doble varDoble := 9.3;
 
-    si (peso[contador] > 5) {
-        imprimir 'sentencia if simple';
-    }
-    si (peso[contador] < 38) {
-        imprimir 'hola mundo';
-    } sino 
-        imprimir 'esto es una prueba';

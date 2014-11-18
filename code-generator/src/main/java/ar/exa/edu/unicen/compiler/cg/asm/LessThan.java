@@ -1,8 +1,14 @@
 package ar.exa.edu.unicen.compiler.cg.asm;
 
+import java.util.Map;
+
 import ar.exa.edu.unicen.compiler.lexical.utils.Triplet;
 
 public class LessThan extends BaseOperation {
+
+    public LessThan(final Map<String, String> variables) {
+        super(variables);
+    }
 
     @Override
     public String toAsm(final int index, final Triplet triplet) {

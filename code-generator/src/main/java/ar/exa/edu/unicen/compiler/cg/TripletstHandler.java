@@ -29,30 +29,32 @@ public class TripletstHandler {
 
     private Token lastComparator;
 
-    public TripletstHandler() {
-        this.operations.put(Token.ADD.name(), new AddDouble());
-        this.operations.put(Token.SUB.name(), new SubDouble());
-        this.operations.put(Token.MUL.name(), new MulDouble());
-        this.operations.put(Token.DIV.name(), new DivDouble());
-        this.operations.put(Token.ASSIGN.name(), new AssignDouble());
-        this.operations.put(Token.PRINT.name(), new Print());
-        this.operations.put(Token.EQ.name(), new Comparator());
-        this.operations.put(Token.NE.name(), new Comparator());
-        this.operations.put(Token.LT.name(), new Comparator());
-        this.operations.put(Token.LE.name(), new Comparator());
-        this.operations.put(Token.GT.name(), new Comparator());
-        this.operations.put(Token.GE.name(), new Comparator());
-        this.operations.put(Branch.BI.name(), new GoTo());
-        this.operations.put(Branch.BF.name() + Token.EQ.name(), new EqualTo());
-        this.operations.put(Branch.BF.name() + Token.NE.name(),
-                new NotEqualTo());
-        this.operations.put(Branch.BF.name() + Token.LT.name(), new LessThan());
+    public TripletstHandler(final Map<String, String> variables) {
+        this.operations.put(Token.ADD.name(), new AddDouble(variables));
+        this.operations.put(Token.SUB.name(), new SubDouble(variables));
+        this.operations.put(Token.MUL.name(), new MulDouble(variables));
+        this.operations.put(Token.DIV.name(), new DivDouble(variables));
+        this.operations.put(Token.ASSIGN.name(), new AssignDouble(variables));
+        this.operations.put(Token.PRINT.name(), new Print(variables));
+        this.operations.put(Token.EQ.name(), new Comparator(variables));
+        this.operations.put(Token.NE.name(), new Comparator(variables));
+        this.operations.put(Token.LT.name(), new Comparator(variables));
+        this.operations.put(Token.LE.name(), new Comparator(variables));
+        this.operations.put(Token.GT.name(), new Comparator(variables));
+        this.operations.put(Token.GE.name(), new Comparator(variables));
+        this.operations.put(Branch.BI.name(), new GoTo(variables));
+        this.operations.put(Branch.BF.name() + Token.EQ.name(), new EqualTo(
+                variables));
+        this.operations.put(Branch.BF.name() + Token.NE.name(), new NotEqualTo(
+                variables));
+        this.operations.put(Branch.BF.name() + Token.LT.name(), new LessThan(
+                variables));
         this.operations.put(Branch.BF.name() + Token.LE.name(),
-                new LessThanOrEqualTo());
+                new LessThanOrEqualTo(variables));
         this.operations.put(Branch.BF.name() + Token.GT.name(),
-                new GreaterThan());
+                new GreaterThan(variables));
         this.operations.put(Branch.BF.name() + Token.GE.name(),
-                new GreaterThanOrEqualTo());
+                new GreaterThanOrEqualTo(variables));
     }
 
     public String getCodeForTriplet(final int index, final Triplet triplet) {
