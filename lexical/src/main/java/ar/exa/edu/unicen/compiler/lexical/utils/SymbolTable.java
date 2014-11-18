@@ -71,8 +71,10 @@ public class SymbolTable {
     public void assignType(final String lexeme, final String type,
             final int line) {
         final Element symbolData = this.table.get(lexeme);
-        symbolData.setType(type);
-        info(Phase.SYMBOL_TABLE, lexeme, symbolData.getToken(), type, line);
+        if (symbolData.getType() == null) {
+            symbolData.setType(type);
+            info(Phase.SYMBOL_TABLE, lexeme, symbolData.getToken(), type, line);
+        }
     }
 
     public boolean isVariableInteger(final String lexeme) {
