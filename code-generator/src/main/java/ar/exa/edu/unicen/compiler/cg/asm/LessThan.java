@@ -6,7 +6,7 @@ import ar.exa.edu.unicen.compiler.lexical.utils.Triplet;
 
 public class LessThan extends BaseOperation {
 
-    public LessThan(final Map<String, String> variables) {
+    public LessThan(final Map<Object, String> variables) {
         super(variables);
     }
 
@@ -17,7 +17,7 @@ public class LessThan extends BaseOperation {
         final StringBuilder sb = new StringBuilder();
 
         sb.append(String.format("LABEL%d:\n", index));
-        sb.append(String.format("\tJA LABEL%d\n", op2));
+        sb.append(String.format("\tJGE LABEL%d\n", op2));
 
         return sb.toString();
     }

@@ -6,7 +6,7 @@ import ar.exa.edu.unicen.compiler.lexical.utils.Triplet;
 
 public class LessThanOrEqualTo extends BaseOperation {
 
-    public LessThanOrEqualTo(final Map<String, String> variables) {
+    public LessThanOrEqualTo(final Map<Object, String> variables) {
         super(variables);
     }
 
@@ -17,7 +17,7 @@ public class LessThanOrEqualTo extends BaseOperation {
         final StringBuilder sb = new StringBuilder();
 
         sb.append(String.format("LABEL%d:\n", index));
-        sb.append(String.format("\tJAE LABEL%d\n", op2));
+        sb.append(String.format("\tJG LABEL%d\n", op2));
 
         return sb.toString();
     }

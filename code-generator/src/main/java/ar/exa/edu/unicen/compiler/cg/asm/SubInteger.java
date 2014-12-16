@@ -6,7 +6,7 @@ import ar.exa.edu.unicen.compiler.lexical.utils.Triplet;
 
 public class SubInteger extends BaseOperation {
 
-    public SubInteger(final Map<String, String> variables) {
+    public SubInteger(final Map<Object, String> variables) {
         super(variables);
     }
 
@@ -18,9 +18,9 @@ public class SubInteger extends BaseOperation {
         final StringBuilder sb = new StringBuilder();
 
         sb.append(String.format("LABEL%d:\n", index));
-        sb.append(String.format("\tMOV ax, [%s]\n", op1));
-        sb.append(String.format("\tSUB ax, [%s]\n", op2));
-        sb.append(String.format("\tMOV [@_aux%d], ax\n", index));
+        sb.append(String.format("\tMOV BX, %s\n", op1));
+        sb.append(String.format("\tSUB BX, %s\n", op2));
+        sb.append(String.format("\tMOV @_aux%d, BX\n", index));
 
         return sb.toString();
     }

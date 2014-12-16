@@ -6,7 +6,7 @@ import ar.exa.edu.unicen.compiler.lexical.utils.Triplet;
 
 public class GreaterThan extends BaseOperation {
 
-    public GreaterThan(final Map<String, String> variables) {
+    public GreaterThan(final Map<Object, String> variables) {
         super(variables);
     }
 
@@ -17,7 +17,7 @@ public class GreaterThan extends BaseOperation {
         final StringBuilder sb = new StringBuilder();
 
         sb.append(String.format("LABEL%d:\n", index));
-        sb.append(String.format("\tJB LABEL%d\n", op2));
+        sb.append(String.format("\tJLE LABEL%d\n", op2));
 
         return sb.toString();
     }

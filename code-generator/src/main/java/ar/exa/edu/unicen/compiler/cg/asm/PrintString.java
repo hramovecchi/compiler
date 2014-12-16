@@ -4,9 +4,9 @@ import java.util.Map;
 
 import ar.exa.edu.unicen.compiler.lexical.utils.Triplet;
 
-public class Print extends BaseOperation {
+public class PrintString extends BaseOperation {
 
-    public Print(final Map<String, String> variables) {
+    public PrintString(final Map<Object, String> variables) {
         super(variables);
     }
 
@@ -17,11 +17,8 @@ public class Print extends BaseOperation {
         final StringBuilder sb = new StringBuilder();
 
         sb.append(String.format("LABEL%d:\n", index));
-        sb.append("\tMOV eax, 4\n");
-        sb.append("\tMOV ebx, 1\n");
-        sb.append(String.format("\tMOV ecx, %s\n", op1));
-        sb.append(String.format("\tMOV edx, %s@\n", op1));
-        sb.append("\tINT 80h\n");
+        sb.append(String.format(
+                "\tinvoke MessageBox, NULL, addr %s, addr __MSG, MB_OK\n", op1));
 
         return sb.toString();
     }

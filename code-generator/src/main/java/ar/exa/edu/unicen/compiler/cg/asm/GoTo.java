@@ -6,7 +6,7 @@ import ar.exa.edu.unicen.compiler.lexical.utils.Triplet;
 
 public class GoTo extends BaseOperation {
 
-    public GoTo(final Map<String, String> variables) {
+    public GoTo(final Map<Object, String> variables) {
         super(variables);
     }
 

@@ -4,17 +4,33 @@ entero variable_muy_larga := 20;
 imprimir 'Empieza programa
  	 + de prueba';
 
-entero contador := 5;
-para (entero contador := 5; contador < 10; contador := contador + 1) {
+para (entero contador := 1; contador < 5; contador := contador + 1) {
 
-    entero resto := contador - contador / 2 * 2;
-    si (resto = 0) {
-        imprimir 'iteracion par';
-    } sino 
-        imprimir 'iteracion impar';
+	si (contador = 1) {
+		imprimir 'contador vale 1';
+	}
+
+	si (contador = 2) {
+		imprimir 'contador vale 2';
+	}
+
+	si (contador = 3) {
+		imprimir 'contador vale 3';
+	}
+
+	si (contador = 4) {
+		imprimir 'contador vale 4 - Fin del for';
+	}
 
 }
 
 ** Fin del test
 doble varDoble := 9.3;
 
+entero i := 0;
+para (doble dval := 8.0; dval <= 9.0; dval := dval + 0.1) {
+	i := i + 1;
+}
+
+si (varDoble > 7.2)
+		imprimir 'Variable doble 9.3 es mayor que 7.2';

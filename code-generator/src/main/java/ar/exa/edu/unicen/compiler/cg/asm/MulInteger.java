@@ -6,7 +6,7 @@ import ar.exa.edu.unicen.compiler.lexical.utils.Triplet;
 
 public class MulInteger extends BaseOperation {
 
-    public MulInteger(final Map<String, String> variables) {
+    public MulInteger(final Map<Object, String> variables) {
         super(variables);
     }
 
@@ -18,9 +18,10 @@ public class MulInteger extends BaseOperation {
         final StringBuilder sb = new StringBuilder();
 
         sb.append(String.format("LABEL%d:\n", index));
-        sb.append(String.format("\tMOV ax, [%s]\n", op1));
-        sb.append(String.format("\tIMUL ax, [%s]\n", op2));
-        sb.append(String.format("\tMOV [@_aux%d], ax\n", index));
+        sb.append(String.format("\tMOV AX, %s\n", op1));
+        sb.append("\tMOV DX, 0\n");
+        sb.append(String.format("\tIMUL AX, %s\n", op2));
+        sb.append(String.format("\tMOV @_aux%d, AX\n", index));
 
         return sb.toString();
     }

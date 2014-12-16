@@ -6,7 +6,7 @@ import ar.exa.edu.unicen.compiler.lexical.utils.Triplet;
 
 public class EqualTo extends BaseOperation {
 
-    public EqualTo(final Map<String, String> variables) {
+    public EqualTo(final Map<Object, String> variables) {
         super(variables);
     }
 

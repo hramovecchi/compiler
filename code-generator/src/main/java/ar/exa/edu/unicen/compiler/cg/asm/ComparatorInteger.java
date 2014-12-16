@@ -4,9 +4,9 @@ import java.util.Map;
 
 import ar.exa.edu.unicen.compiler.lexical.utils.Triplet;
 
-public class Comparator extends BaseOperation {
+public class ComparatorInteger extends BaseOperation {
 
-    public Comparator(final Map<String, String> variables) {
+    public ComparatorInteger(final Map<Object, String> variables) {
         super(variables);
     }
 
@@ -18,11 +18,8 @@ public class Comparator extends BaseOperation {
         final StringBuilder sb = new StringBuilder();
 
         sb.append(String.format("LABEL%d:\n", index));
-        sb.append("\tFCOMPP\n");
-        sb.append(String.format("\tFLD dword[%s]\n", op2));
-        sb.append(String.format("\tFCOMP dword[%s]\n", op1));
-        sb.append("\tFSTSW ax\n");
-        sb.append("\tSAHF\n");
+        sb.append(String.format("\tMOV CX, %s\n", op2));
+        sb.append(String.format("\tCMP %s, CX\n", op1));
 
         return sb.toString();
     }

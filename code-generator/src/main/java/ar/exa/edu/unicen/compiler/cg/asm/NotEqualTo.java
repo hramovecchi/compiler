@@ -6,7 +6,7 @@ import ar.exa.edu.unicen.compiler.lexical.utils.Triplet;
 
 public class NotEqualTo extends BaseOperation {
 
-    public NotEqualTo(final Map<String, String> variables) {
+    public NotEqualTo(final Map<Object, String> variables) {
         super(variables);
     }
 

@@ -4,9 +4,9 @@ import java.util.Map;
 
 import ar.exa.edu.unicen.compiler.lexical.utils.Triplet;
 
-public class MulDouble extends BaseOperation {
+public class ComparatorDouble extends BaseOperation {
 
-    public MulDouble(final Map<Object, String> variables) {
+    public ComparatorDouble(final Map<Object, String> variables) {
         super(variables);
     }
 
@@ -23,8 +23,10 @@ public class MulDouble extends BaseOperation {
         final String op2 = this.convertIntegerToDouble(sb, op2Formatted);
 
         sb.append(String.format("\tFLD %s\n", op1));
-        sb.append(String.format("\tFMUL %s\n", op2));
-        sb.append(String.format("\tFSTP @_aux%d\n", index));
+        sb.append(String.format("\tFLD %s\n", op2));
+        sb.append("\tFCOM\n");
+        sb.append("\tFSTSW AX\n");
+        sb.append("\tSAHF\n");
 
         return sb.toString();
     }

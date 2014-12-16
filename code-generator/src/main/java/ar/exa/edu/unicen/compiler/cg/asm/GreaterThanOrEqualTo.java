@@ -6,7 +6,7 @@ import ar.exa.edu.unicen.compiler.lexical.utils.Triplet;
 
 public class GreaterThanOrEqualTo extends BaseOperation {
 
-    public GreaterThanOrEqualTo(final Map<String, String> variables) {
+    public GreaterThanOrEqualTo(final Map<Object, String> variables) {
         super(variables);
     }
 
@@ -17,7 +17,7 @@ public class GreaterThanOrEqualTo extends BaseOperation {
         final StringBuilder sb = new StringBuilder();
 
         sb.append(String.format("LABEL%d:\n", index));
-        sb.append(String.format("\tJBE LABEL%d\n", op2));
+        sb.append(String.format("\tJL LABEL%d\n", op2));
 
         return sb.toString();
     }

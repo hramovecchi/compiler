@@ -6,7 +6,7 @@ import ar.exa.edu.unicen.compiler.lexical.utils.Triplet;
 
 public class AssignInteger extends BaseOperation {
 
-    public AssignInteger(final Map<String, String> variables) {
+    public AssignInteger(final Map<Object, String> variables) {
         super(variables);
     }
 
@@ -18,8 +18,8 @@ public class AssignInteger extends BaseOperation {
         final StringBuilder sb = new StringBuilder();
 
         sb.append(String.format("LABEL%d:\n", index));
-        sb.append(String.format("\tMOV ax, [%s]\n", op1));
-        sb.append(String.format("\tMOV [%s], ax\n", op2));
+        sb.append(String.format("\tMOV BX, %s\n", op2));
+        sb.append(String.format("\tMOV %s, BX\n", op1));
 
         return sb.toString();
     }

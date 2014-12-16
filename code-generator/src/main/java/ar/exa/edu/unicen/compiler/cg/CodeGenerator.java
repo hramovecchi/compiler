@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ar.exa.edu.unicen.compiler.lexical.Lexical;
+import ar.exa.edu.unicen.compiler.lexical.semantic.actions.DoubleSemanticAction;
 import ar.exa.edu.unicen.compiler.lexical.utils.SymbolTable;
 import ar.exa.edu.unicen.compiler.lexical.utils.Triplet;
 import ar.exa.edu.unicen.compiler.syntactic.Branch;
@@ -33,7 +34,7 @@ public class CodeGenerator {
 
     private static final SymbolTable SYMBOL_TABLE = SymbolTable.getInstance();
 
-    private final Map<String, String> variables = new HashMap<String, String>();
+    private final Map<Object, String> variables = new HashMap<Object, String>();
 
     private final Syntactic syntactic;
 
@@ -46,9 +47,22 @@ public class CodeGenerator {
     public String loadProgramHeader(final List<Triplet> triplets) {
 
         final StringBuilder sb = new StringBuilder();
-        sb.append("SECTION .MODEL small\n");
-        sb.append("SECTION .STACK 200h\n");
-        sb.append("SECTION .DATA\n");
+        sb.append(".386\n");
+        sb.append(".MODEL flat, stdcall\n");
+        sb.append("option casemap :none\n");
+        sb.append("include \\masm32\\include\\windows.inc\n");
+        sb.append("include \\masm32\\include\\kernel32.inc\n");
+        sb.append("include \\masm32\\include\\user32.inc\n");
+        sb.append("includelib \\masm32\\lib\\kernel32.lib\n");
+        sb.append("includelib \\masm32\\lib\\user32.lib\n");
+        sb.append(".STACK 200h\n");
+        sb.append(".DATA\n");
+        sb.append("\t__MIN DD 1.17549435e-38\n");
+        sb.append("\t__MAX DD 3.40282347e38\n");
+        sb.append("\t_msjOS DB \"Error: Overflow en suma\", 0\n");
+        sb.append("\t_msjDC DB \"Error: Division por cero\", 0\n");
+        sb.append("\t__MSG DB 'Mensaje'\n");
+        sb.append("\t__convAux DD 0\n");
 
         int count = 0;
         for (final String lexeme : SYMBOL_TABLE.getLexemes()) {
@@ -57,36 +71,38 @@ public class CodeGenerator {
             if (SYMBOL_TABLE.isVariableInteger(lexeme)) {
 
                 var = "@_dw" + lexeme;
-                sb.append(String.format("\t%s dw 0 \n", var, lexeme));
+                sb.append(String.format("\t%s DW 0 \n", var, lexeme));
                 this.variables.put(lexeme, var);
 
             } else if (SYMBOL_TABLE.isVariableDouble(lexeme)) {
 
                 var = "@_dd" + lexeme;
-                sb.append(String.format("\t%s dd 0 \n", var, lexeme));
+                sb.append(String.format("\t%s DD 0 \n", var, lexeme));
                 this.variables.put(lexeme, var);
 
             } else if (SYMBOL_TABLE.isConstantInteger(lexeme)) {
 
                 var = "@_cdw" + count++;
-                sb.append(String.format("\t%s dw %s \n", var, lexeme));
+                sb.append(String.format("\t%s DW %s \n", var, lexeme));
                 this.variables.put(lexeme, var);
 
             } else if (SYMBOL_TABLE.isConstantDouble(lexeme)) {
 
                 var = "@_cdd" + count++;
-                sb.append(String.format("\t%s dd %s \n", var, lexeme));
-                this.variables.put(lexeme, var);
+                sb.append(String.format("\t%s DD %s \n", var, lexeme));
+                this.variables.put(String.valueOf(DoubleSemanticAction
+                        .stringToDouble(lexeme)), var);
 
             } else if (SYMBOL_TABLE.isConstantString(lexeme)) {
 
                 var = "@_sdd" + count++;
-                sb.append(String.format("\t%s dd %s \n", var, lexeme));
+                sb.append(String.format("\t%s DB %s \n", var, lexeme));
                 this.variables.put(lexeme, var);
 
             }
         }
 
+        StringBuilder vars = new StringBuilder();
         for (final Triplet triplet : triplets) {
 
             final String operator = triplet.getOperator().toString();
@@ -96,20 +112,43 @@ public class CodeGenerator {
                 if (triplet.getOperand1() instanceof Integer) {
                     final String var =
                             "@_aux" + triplet.getOperand1().toString();
-                    sb.append(String.format("\t%s dd 0 \n", var));
-                    this.variables.put(triplet.getOperand1().toString(), var);
+                    vars.append(String.format("\t%s #VAR# 0 \n", var));
+                    this.variables.put(triplet.getOperand1(), var);
                 }
 
                 if (triplet.getOperand2() instanceof Integer) {
                     final String var =
                             "@_aux" + triplet.getOperand2().toString();
-                    sb.append(String.format("\t%s dd 0 \n", var));
-                    this.variables.put(triplet.getOperand2().toString(), var);
+                    vars.append(String.format("\t%s #VAR# 0 \n", var));
+                    this.variables.put(triplet.getOperand2(), var);
+                }
+
+                if (triplet.getOperand1() instanceof String) {
+
+                    final String op1 = triplet.getOperand1().toString();
+                    if (SYMBOL_TABLE.isVariableInteger(op1)) {
+                        sb.append(vars.toString().replace("#VAR#", "DW"));
+                        vars = new StringBuilder();
+                    } else if (SYMBOL_TABLE.isVariableDouble(op1)) {
+                        sb.append(vars.toString().replace("#VAR#", "DD"));
+                        vars = new StringBuilder();
+                    }
                 }
             }
         }
 
-        sb.append("SECTION .CODE\n");
+        sb.append(".CODE\n");
+
+        // Overflow for addition.
+        sb.append("_overflow_suma:\n");
+        sb.append("\tinvoke MessageBox, NULL, addr _msjOS, addr _msjOS, MB_OK\n");
+        sb.append("\tinvoke ExitProcess, 0\n");
+
+        // Division per zero.
+        sb.append("_division_cero:\n");
+        sb.append("\tinvoke MessageBox, NULL, addr _msjDC, addr _msjDC, MB_OK\n");
+        sb.append("\tinvoke ExitProcess, 0\n");
+
         sb.append("START:\n");
 
         this.tripletHandler = new TripletstHandler(this.variables);
@@ -124,6 +163,7 @@ public class CodeGenerator {
 
         final StringBuilder sb = new StringBuilder();
         sb.append(String.format("LABEL%d:\n", size));
+        sb.append("invoke ExitProcess, 0\n");
         sb.append("END START\n");
         return sb.toString();
     }

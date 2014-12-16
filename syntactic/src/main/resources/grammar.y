@@ -103,6 +103,7 @@ IterationStatement
 
 PrintExpression
     : PRINT STRING SEMICOLON                                                                                               {yyinfo("Sentencia \"imprimir\""); print();}
+    | PRINT UnaryExpression SEMICOLON                                                                                      {yyinfo("Sentencia \"imprimir\""); print();}
     | PRINT STRING error                                                                                                   {yyerror("Falta operador de fin de sentencia");}
     ;
 

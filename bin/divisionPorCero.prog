@@ -1,0 +1,5 @@
+doble a := 0;
+doble b := 7.2;
+b := b/a;
+imprimir 'termino';
+
