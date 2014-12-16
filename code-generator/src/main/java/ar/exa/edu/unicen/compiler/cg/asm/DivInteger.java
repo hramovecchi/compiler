@@ -27,7 +27,7 @@ public class DivInteger extends BaseOperation {
         sb.append(String.format("\tMOV AX, %s\n", op1));
         sb.append("\tCWD\n");// copia el signo a DX
         sb.append(String.format("\tIDIV %s\n", op2));
-        sb.append(String.format("\tMOV @_aux%d, AX\n", index));
+        sb.append(String.format("\tMOV @_dwaux%d, AX\n", index));
 
         return sb.toString();
     }

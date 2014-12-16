@@ -30,7 +30,7 @@ public class DivDouble extends BaseOperation {
         sb.append("\tJE _division_cero\n");
         sb.append(String.format("\tFLD %s\n", op1));
         sb.append("\tFDIVR \n"); // o "FDIV ST, ST(1)\n";
-        sb.append(String.format("\tFSTP @_aux%d\n", index));
+        sb.append(String.format("\tFSTP @_ddaux%d\n", index));
 
         return sb.toString();
     }

@@ -20,7 +20,7 @@ public class SubInteger extends BaseOperation {
         sb.append(String.format("LABEL%d:\n", index));
         sb.append(String.format("\tMOV BX, %s\n", op1));
         sb.append(String.format("\tSUB BX, %s\n", op2));
-        sb.append(String.format("\tMOV @_aux%d, BX\n", index));
+        sb.append(String.format("\tMOV @_dwaux%d, BX\n", index));
 
         return sb.toString();
     }

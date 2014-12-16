@@ -24,7 +24,7 @@ public class MulDouble extends BaseOperation {
 
         sb.append(String.format("\tFLD %s\n", op1));
         sb.append(String.format("\tFMUL %s\n", op2));
-        sb.append(String.format("\tFSTP @_aux%d\n", index));
+        sb.append(String.format("\tFSTP @_ddaux%d\n", index));
 
         return sb.toString();
     }
