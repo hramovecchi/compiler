@@ -24,7 +24,7 @@ public class AddDouble extends BaseOperation {
 
         sb.append(String.format("\tFLD %s\n", op1));
         sb.append(String.format("\tFADD %s\n", op2));
-        sb.append(String.format("\tFSTP @_aux%d\n", index));
+        sb.append(String.format("\tFSTP @_ddaux%d\n", index));
         sb.append("\tFABS \n");
         sb.append("\tFCOM __MAX\n");
         sb.append("\tFSTSW AX \n");

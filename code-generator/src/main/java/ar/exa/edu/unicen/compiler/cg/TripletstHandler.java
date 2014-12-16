@@ -106,7 +106,7 @@ public class TripletstHandler {
     private String identifyOperatorType(final Object op) {
 
         if (op != null) {
-            final String var = this.variables.get(op.toString());
+            final String var = this.variables.get(op);
             if (var != null) {
                 if (var.startsWith("@_dw") || var.startsWith("@_cdw")) {
                     return Token.INTEGER.name();

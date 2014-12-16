@@ -1,0 +1,27 @@
+
+imprimir 'empieza de programa - evalua operadores';
+
+entero a := 5;
+
+si (a < 6)
+	imprimir 'a=5 < 6';
+
+si (a > 4)
+	imprimir 'a=5 > 4';
+
+si (a = 5)
+	imprimir 'a=5';
+
+si (a >= 5)
+	imprimir 'a=5 >= 5';
+
+si (a >= 6)
+	imprimir 'a=5 >= 6';
+
+si (a <= 5)
+	imprimir 'a=5 <= 5';
+
+si (a <= 4)
+	imprimir 'a=5 <= 4';
+
+imprimir 'fin de programa';

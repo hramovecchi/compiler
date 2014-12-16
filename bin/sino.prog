@@ -1,0 +1,11 @@
+
+imprimir 'empieza de programa - evalua clausula si-sino';
+
+entero a := 0;
+
+si (a ^= 1)
+	imprimir 'error a no es 1 y entro al si';
+sino
+	imprimir 'entro al sino, a no es 1, a vale 0';
+
+imprimir 'fin de programa';

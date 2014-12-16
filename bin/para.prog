@@ -1,0 +1,10 @@
+
+imprimir 'Empieza programa
+     + de prueba';
+
+para (entero contador := 1; contador < 5; contador := contador + 1) {
+
+    imprimir 'entro al for';
+
+}
+

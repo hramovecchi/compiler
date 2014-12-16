@@ -61,7 +61,7 @@ public class CodeGenerator {
         sb.append("\t__MAX DD 3.40282347e38\n");
         sb.append("\t_msjOS DB \"Error: Overflow en suma\", 0\n");
         sb.append("\t_msjDC DB \"Error: Division por cero\", 0\n");
-        sb.append("\t__MSG DB 'Mensaje'\n");
+        sb.append("\t__MSG DB \"Mensaje\", 0 \n");
         sb.append("\t__convAux DD 0\n");
 
         int count = 0;
@@ -96,7 +96,8 @@ public class CodeGenerator {
             } else if (SYMBOL_TABLE.isConstantString(lexeme)) {
 
                 var = "@_sdd" + count++;
-                sb.append(String.format("\t%s DB %s \n", var, lexeme));
+                sb.append(String.format("\t%s DB %s, 0 \n", var, lexeme
+                        .replace("'", "\"")));
                 this.variables.put(lexeme, var);
 
             }
@@ -111,14 +112,14 @@ public class CodeGenerator {
 
                 if (triplet.getOperand1() instanceof Integer) {
                     final String var =
-                            "@_aux" + triplet.getOperand1().toString();
+                            "@_#VAR#aux" + triplet.getOperand1().toString();
                     vars.append(String.format("\t%s #VAR# 0 \n", var));
                     this.variables.put(triplet.getOperand1(), var);
                 }
 
                 if (triplet.getOperand2() instanceof Integer) {
                     final String var =
-                            "@_aux" + triplet.getOperand2().toString();
+                            "@_#VAR#aux" + triplet.getOperand2().toString();
                     vars.append(String.format("\t%s #VAR# 0 \n", var));
                     this.variables.put(triplet.getOperand2(), var);
                 }
@@ -127,10 +128,29 @@ public class CodeGenerator {
 
                     final String op1 = triplet.getOperand1().toString();
                     if (SYMBOL_TABLE.isVariableInteger(op1)) {
-                        sb.append(vars.toString().replace("#VAR#", "DW"));
+                        sb.append(vars.toString().replace("#VAR#", "dw"));
+
+                        for (final Object operand : this.variables.keySet()) {
+                            final String var = this.variables.get(operand);
+                            if (var.startsWith("@_#VAR#aux")) {
+                                final String val = var.replace("#VAR#", "dw");
+                                this.variables.put(operand, val);
+                            }
+                        }
+
                         vars = new StringBuilder();
+
                     } else if (SYMBOL_TABLE.isVariableDouble(op1)) {
-                        sb.append(vars.toString().replace("#VAR#", "DD"));
+                        sb.append(vars.toString().replace("#VAR#", "dd"));
+
+                        for (final Object operand : this.variables.keySet()) {
+                            final String var = this.variables.get(operand);
+                            if (var.startsWith("@_#VAR#aux")) {
+                                final String val = var.replace("#VAR#", "dd");
+                                this.variables.put(operand, val);
+                            }
+                        }
+
                         vars = new StringBuilder();
                     }
                 }
